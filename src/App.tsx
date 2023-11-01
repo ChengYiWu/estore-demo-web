@@ -33,7 +33,7 @@ const UserTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("https://localhost:7061/api/users", {
+      const response = await fetch(`${import.meta.env.VITE_APP_BASE_API}/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
