@@ -1,6 +1,6 @@
 import type { UploadProps, UploadFile as AntUploadFile } from "antd";
 import { Upload } from "antd";
-import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 export interface UploadFileResponse {
   uniqId: string;
@@ -39,19 +39,6 @@ const Uploader = (props: UploaderProps) => {
   //     setFileList(fileList);
   //   },
   // };
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
 
   const handleChange: UploadProps<UploadFileResponse>["onChange"] = ({ file, fileList }) => {
     if (file.status === "uploading") {
