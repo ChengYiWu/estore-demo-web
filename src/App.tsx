@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Alert } from "antd";
+import { Alert, App as AntApp } from "antd";
 import type { UploadFile } from "@components/Uploader";
 import Uploader from "@components/Uploader";
-import Layout from "./Layout";
 import token from "@/tokens";
-import UserTable from "./pages/Users/AllUsers/AllUsers";
+import UserTable from "./pages/User/AllUsers/AllUsers";
+import AdminLayout from "./layouts/AdminLayout";
+import "./global.css";
+import Layout from "./layouts";
 
 localStorage.setItem("token", token);
 
@@ -23,13 +25,13 @@ const ProductUploader = () => {
 
 function App() {
   return (
-    <>
+    <AntApp>
       {/* <Alert.ErrorBoundary message="Some Error Occure" description="call admin">
         <UserTable />
       </Alert.ErrorBoundary>
       <ProductUploader /> */}
       <Layout />
-    </>
+    </AntApp>
   );
 }
 

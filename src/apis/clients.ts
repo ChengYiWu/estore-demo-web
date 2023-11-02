@@ -1,4 +1,5 @@
 import router from "@/router";
+import { message } from "antd";
 import axios from "axios";
 
 const estoreApi = axios.create({
@@ -23,7 +24,11 @@ estoreApi.interceptors.response.use(
     }
 
     if (error.response?.status === 403) {
-      router.navigate("/unauthorized");
+      message.error("權限不足");
+    }
+
+    if (error.response?.status === 500) {
+      message.error("伺服器錯誤");
     }
 
     return Promise.reject(error);
