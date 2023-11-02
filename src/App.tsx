@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Uploader, { UploadFile } from "./components/Uploader/Uploader";
-import "./App.css";
+import { Alert } from "antd";
+import type { UploadFile } from "@components/Uploader";
+import Uploader from "@components/Uploader";
+import Layout from "./Layout";
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NzVhYzRmZC1hM2E0LTQ0NmMtOWEyYS1jNWFjM2RhMmIzNjMiLCJuYW1lIjoiQ2hyaXNBZG1pbiIsImVtYWlsIjoiY2hyaXNAZXhhbXBsZS5jb20iLCJleHAiOjE3Mjk3NDgxNzMsImp0aSI6IjZjZmRiOTkxLTUwYTAtNGI5YS1hNjYzLTRiNjAwNzA2ZjkxOCIsIm5iZiI6MTY5ODIxMjE3MywiaWF0IjoxNjk4MjEyMTczLCJpc3MiOiJFU3RvcmVEZW1vIn0.aPVnqt5fqn7qumNQJ7Yp2Qu_6UBZfV_c2vDtqqDCc_I";
@@ -30,21 +32,32 @@ localStorage.setItem("token", token);
 
 const UserTable = () => {
   const [result, setResult] = useState<GetAllUsersResponse>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${import.meta.env.VITE_APP_BASE_API}/users`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setResult(await response.json());
+      try {
+        const response = await fetch(`${import.meta.env.VITE_APP_BASE_API}/users`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setResult(await response.json());
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err);
+        }
+      }
     };
 
     fetchData();
   }, []);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   return (
     <div>
@@ -70,8 +83,11 @@ const ProductUploader = () => {
 function App() {
   return (
     <>
-      <UserTable />
+      <Alert.ErrorBoundary message="Some Error Occure" description="call admin">
+        <UserTable />
+      </Alert.ErrorBoundary>
       <ProductUploader />
+      <Layout />
     </>
   );
 }

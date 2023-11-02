@@ -1,23 +1,7 @@
-import type { UploadProps, UploadFile as AntUploadFile } from "antd";
+import type { UploadProps } from "antd";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-
-export interface UploadFileResponse {
-  uniqId: string;
-  oriFileName: string;
-  fileName: string;
-  uri: string;
-}
-
-export interface UploadFile<T extends UploadFileResponse = UploadFileResponse> extends AntUploadFile<T> {}
-
-export interface UploaderProps {
-  name?: string;
-  action: string;
-  headers?: Record<string, string>;
-  value: UploadFile[];
-  onChange: (value: UploadFile[]) => void;
-}
+import type { UploaderProps, UploadFileResponse } from "./Uploader.types";
 
 const Uploader = (props: UploaderProps) => {
   const { name = "file", value, onChange, action, headers } = props;
