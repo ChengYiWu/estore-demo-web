@@ -1,71 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert } from "antd";
 import type { UploadFile } from "@components/Uploader";
 import Uploader from "@components/Uploader";
 import Layout from "./Layout";
-
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NzVhYzRmZC1hM2E0LTQ0NmMtOWEyYS1jNWFjM2RhMmIzNjMiLCJuYW1lIjoiQ2hyaXNBZG1pbiIsImVtYWlsIjoiY2hyaXNAZXhhbXBsZS5jb20iLCJleHAiOjE3Mjk3NDgxNzMsImp0aSI6IjZjZmRiOTkxLTUwYTAtNGI5YS1hNjYzLTRiNjAwNzA2ZjkxOCIsIm5iZiI6MTY5ODIxMjE3MywiaWF0IjoxNjk4MjEyMTczLCJpc3MiOiJFU3RvcmVEZW1vIn0.aPVnqt5fqn7qumNQJ7Yp2Qu_6UBZfV_c2vDtqqDCc_I";
-
-interface GetAllUsersResponse {
-  items: [
-    {
-      id: string;
-      userName: string;
-      email: string;
-      roles: [
-        {
-          name: string;
-        },
-      ];
-    },
-  ];
-  pageSize: number;
-  pageNumber: number;
-  totalPages: number;
-  totalCount: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-}
+import token from "@/tokens";
+import UserTable from "./pages/Users/AllUsers/AllUsers";
 
 localStorage.setItem("token", token);
-
-const UserTable = () => {
-  const [result, setResult] = useState<GetAllUsersResponse>();
-  const [error, setError] = useState<Error>();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_APP_BASE_API}/users`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setResult(await response.json());
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err);
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return (
-    <div>
-      <p>All Users</p>
-      {result && JSON.stringify(result)}
-    </div>
-  );
-};
 
 const ProductUploader = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([
@@ -83,10 +24,10 @@ const ProductUploader = () => {
 function App() {
   return (
     <>
-      <Alert.ErrorBoundary message="Some Error Occure" description="call admin">
+      {/* <Alert.ErrorBoundary message="Some Error Occure" description="call admin">
         <UserTable />
       </Alert.ErrorBoundary>
-      <ProductUploader />
+      <ProductUploader /> */}
       <Layout />
     </>
   );

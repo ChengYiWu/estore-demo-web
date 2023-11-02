@@ -1,4 +1,6 @@
 import { Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
+import Unauthorize from "@components/Unauthorize";
+import NotFound from "@components/NotFound";
 
 const LoginLayout = () => {
   return <div>This is Login Layout Page</div>;
@@ -25,16 +27,25 @@ const Layout = () => {
   return (
     <div>
       <Routes>
-        <Route path="/login" element={<LoginLayout />}></Route>
-        <Route element={<AdminLayout />}>
-          <Route
+        <Route path="/login" element={<LoginLayout />} />
+        <Route path="/unauthorized" element={<Unauthorize />} />
+        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/"
+          element={
+            <RequiredAuth>
+              <AdminLayout />
+            </RequiredAuth>
+          }
+        >
+          {/* <Route
             path="/"
             element={
               <RequiredAuth>
                 <div>Home</div>
               </RequiredAuth>
             }
-          />
+          /> */}
           <Route
             path="/users"
             element={
@@ -51,6 +62,7 @@ const Layout = () => {
               </RequiredAuth>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </div>
