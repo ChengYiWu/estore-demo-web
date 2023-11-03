@@ -4,6 +4,7 @@ import { UploadOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/i
 import { Outlet } from "react-router-dom";
 import { createStyles } from "antd-style";
 import useStore from "@/store/store";
+import { antdUtils } from "@/utils/antd.util";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -58,8 +59,21 @@ const AdminLayout = () => {
       </Sider>
       <Layout>
         <Header className={styles.header}>
-          <Button type="primary" onClick={logout}>
-            Logout
+          <Button
+            type="primary"
+            onClick={() => {
+              logout(() => {
+                setTimeout(() => {
+                  antdUtils.notification?.success({
+                    message: "登出成功",
+                    placement: "bottomRight",
+                    duration: 2,
+                  });
+                });
+              });
+            }}
+          >
+            登出
           </Button>
         </Header>
         <Content className={styles.contentWrapper}>

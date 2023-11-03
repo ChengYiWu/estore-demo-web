@@ -12,7 +12,7 @@ type State = {
 
 type Action = {
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: (onSuccess?: () => void) => void;
 };
 
 export type AuthSlice = State & Action;
@@ -37,9 +37,13 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
       set({ loginProcessing: false });
     }
   },
-  logout: () => {
+  logout: (onSuccess) => {
     localStorage.removeItem("token");
-    return set(initState);
+    set(initState);
+
+    if (onSuccess) {
+      onSuccess();
+    }
   },
 });
 

@@ -2,6 +2,8 @@ import { Navigate } from "react-router-dom";
 import useStore from "@store/index";
 import { Alert, Button, Form, Input } from "antd";
 import { createStyles } from "antd-style";
+import { antdUtils } from "@utils/antd.util";
+import { useEffect } from "react";
 
 interface FormValues {
   email: string;
@@ -41,6 +43,17 @@ const LoginLayout = () => {
   const loginProcessing = useStore((state) => state.loginProcessing);
   const login = useStore((state) => state.login);
   const { styles } = useStyle();
+
+  useEffect(() => {
+    if (isAuth) {
+      antdUtils.notification?.success({
+        message: "登入成功",
+        description: "歡迎回來",
+        placement: "bottomRight",
+        duration: 2,
+      });
+    }
+  }, [isAuth]);
 
   if (isAuth) {
     return <Navigate to="/" replace />;

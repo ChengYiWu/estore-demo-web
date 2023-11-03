@@ -17,11 +17,11 @@ const px2rem = px2remTransformer({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <StyleProvider transformers={[px2rem]}>
-        <ConfigProvider theme={theme}>
+      <ConfigProvider theme={theme}>
+        <StyleProvider transformers={[px2rem]}>
           <RouterProvider router={router} />
-        </ConfigProvider>
-      </StyleProvider>
+        </StyleProvider>
+      </ConfigProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );
