@@ -1,8 +1,9 @@
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import { Outlet } from "react-router-dom";
 import { createStyles } from "antd-style";
+import useStore from "@/store/store";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -12,7 +13,11 @@ const useStyle = createStyles(({ token }) => ({
   },
   header: {
     padding: 0,
+    paddingRight: "1.5rem",
     background: token.colorBgContainer,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   contentWrapper: {
     margin: "24px 16px 0",
@@ -24,6 +29,7 @@ const useStyle = createStyles(({ token }) => ({
 }));
 
 const AdminLayout = () => {
+  const logout = useStore((state) => state.logout);
   const { styles } = useStyle();
 
   return (
@@ -51,7 +57,11 @@ const AdminLayout = () => {
         />
       </Sider>
       <Layout>
-        <Header className={styles.header} />
+        <Header className={styles.header}>
+          <Button type="primary" onClick={logout}>
+            Logout
+          </Button>
+        </Header>
         <Content className={styles.contentWrapper}>
           <div className={styles.content}>
             <Outlet />

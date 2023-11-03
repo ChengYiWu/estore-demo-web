@@ -1,5 +1,5 @@
-import type { LazyExoticComponent } from "react";
 import { Suspense } from "react";
+import type { LazyExoticComponent } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 import RequiredAuth from "./RequiredAuth";

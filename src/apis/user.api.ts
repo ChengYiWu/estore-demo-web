@@ -1,5 +1,5 @@
 import estoreApi from "./clients";
-import { getUsersResponse } from "./userApi.types";
+import { getUsersResponse } from "./user.api.types";
 
 const UserApi = {
   getUsers: async (): Promise<getUsersResponse> => {
