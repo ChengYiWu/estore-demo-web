@@ -1,12 +1,12 @@
 import type { LazyExoticComponent } from "react";
 import { lazy } from "react";
 
-const AllUsers = lazy(() => import("@/pages/User/AllUsers"));
-
 interface Route {
   path: string;
   component: LazyExoticComponent<() => JSX.Element>;
 }
+
+const EditUser = lazy(() => import("@pages/User/EditUser"));
 
 interface Routes {
   [key: string]: {
@@ -24,8 +24,16 @@ const routes: Routes = {
   User: {
     AllUsers: {
       path: "/users",
-      component: AllUsers,
+      component: lazy(() => import("@pages/User/AllUsers")),
     },
+    EditUser: {
+      path: "/users/:id",
+      component: EditUser,
+    },
+    CreateUser: {
+      path: "/users/create",
+      component: EditUser,
+    }
   },
 };
 

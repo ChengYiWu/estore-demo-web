@@ -1,16 +1,17 @@
+interface Role {
+  id: string;
+  name: string;
+}
+
+interface UserResponse {
+  id: string;
+  userName: string;
+  email: string;
+  roles: Role[];
+}
+
 interface getUsersResponse {
-  items: [
-    {
-      id: string;
-      userName: string;
-      email: string;
-      roles: [
-        {
-          name: string;
-        },
-      ];
-    },
-  ];
+  items: UserResponse[];
   pageSize: number;
   pageNumber: number;
   totalPages: number;
@@ -19,4 +20,4 @@ interface getUsersResponse {
   hasNextPage: boolean;
 }
 
-export type { getUsersResponse };
+export type { getUsersResponse, UserResponse as getUserResponse };

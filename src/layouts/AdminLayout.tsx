@@ -1,10 +1,20 @@
 import React from "react";
-import { Button, Layout, Menu } from "antd";
+import type { MenuProps } from "antd";
+import { Button, Layout, Menu, Spin } from "antd";
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import { Outlet } from "react-router-dom";
 import { createStyles } from "antd-style";
 import useStore from "@/store/store";
 import { antdUtils } from "@/utils/antd.util";
+import { useIsFetching } from "@tanstack/react-query";
+import { last } from "lodash";
+
+// 若是要在 Content 內顯示 Loading，則需要在 queryKey 中加入 contentLoadingEnable: true
+interface ContentLoadingEnableQueryKey {
+  contentLoadingEnable: boolean;
+}
+
+type MenuItem = Required<MenuProps>["items"][number];
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -21,17 +31,43 @@ const useStyle = createStyles(({ token }) => ({
     alignItems: "center",
   },
   contentWrapper: {
-    margin: "24px 16px 0",
-  },
-  content: {
     background: token.colorBgContainer,
-    minHeight: "100%",
+    margin: "1.5rem 1rem",
+    padding: "1.5rem 1rem",
+    position: "relative",
+    // border: "1px solid red",
+  },
+  contentLoading: {
+    "&.ant-spin-spinning": {
+      position: "absolute",
+      inset: 0,
+      zIndex: token.zIndexPopupBase,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      background: "rgba(255, 255, 255, .6)",
+    }
   },
 }));
 
+const Menus: MenuItem[] = [];
+
 const AdminLayout = () => {
-  const logout = useStore((state) => state.logout);
   const { styles } = useStyle();
+  const logout = useStore((state) => state.logout);
+
+  // 檢查 store 是否有任何要 loading 的狀態
+  const isContentLoading = useStore((state) => state.contentLoading);
+
+  // 檢查是否有任何正在 query 且要在 Content 內顯示 Loading 的 query
+  const isFetching = useIsFetching({
+    predicate: (query) => {
+      const lastKey = last(query.queryKey) as ContentLoadingEnableQueryKey;
+      return lastKey?.contentLoadingEnable;
+    },
+  });
+
+  const isContentLoadingEnable = isContentLoading || isFetching > 0;
 
   return (
     <Layout className={styles.layout}>
@@ -39,17 +75,18 @@ const AdminLayout = () => {
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
-          console.log(broken);
+          // console.log(broken);
         }}
         onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
         }}
       >
-        <div className="demo-logo-vertical" />
+        <div style={{ margin: "12px" }}>
+          <img src="https://via.placeholder.com/150x30" alt="logo" />
+        </div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["4"]}
           items={[UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map((icon, index) => ({
             key: String(index + 1),
             icon: React.createElement(icon),
@@ -77,9 +114,8 @@ const AdminLayout = () => {
           </Button>
         </Header>
         <Content className={styles.contentWrapper}>
-          <div className={styles.content}>
-            <Outlet />
-          </div>
+          <Spin spinning={isContentLoadingEnable} className={styles.contentLoading} />
+          <Outlet />
         </Content>
         <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>

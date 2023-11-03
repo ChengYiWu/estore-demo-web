@@ -8,6 +8,12 @@ import { router } from "@utils/index";
 import theme from "./theme";
 
 const queryClient = new QueryClient();
+queryClient.setDefaultOptions({
+  queries: {
+    refetchOnWindowFocus: false,
+    retry: false,
+  },
+});
 
 const px2rem = px2remTransformer({
   rootValue: 16, // 16px = 1rem; @default 16,

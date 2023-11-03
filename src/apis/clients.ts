@@ -18,7 +18,6 @@ estoreApi.interceptors.request.use((config) => {
 estoreApi.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log("error :>> ", error);
     if (error.response?.status === 401) {
       router.navigate("/login");
     }
@@ -29,6 +28,13 @@ estoreApi.interceptors.response.use(
 
     if (error.response?.status === 500) {
       message.error("伺服器錯誤");
+    }
+
+    if (error.response?.data) {
+      return Promise.reject({
+        ...error.response.data,
+        message: error.response.data.detail || error.response.data.message,
+      });
     }
 
     return Promise.reject(error);

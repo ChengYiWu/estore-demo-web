@@ -3,6 +3,7 @@ import { StateCreator } from "zustand";
 import ErrorResponse from "@/types/commons/ErrorResponse";
 import { AxiosError } from "axios";
 import { antdUtils } from "@utils/antd.util";
+import { isNil } from "lodash";
 
 type State = {
   token: string | null;
@@ -20,7 +21,7 @@ export type AuthSlice = State & Action;
 const initState: State = {
   token: localStorage.getItem("token") || null,
   loginProcessing: false,
-  isAuth: false,
+  isAuth: !isNil(localStorage.getItem("token")),
 };
 
 const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
@@ -41,9 +42,7 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
     localStorage.removeItem("token");
     set(initState);
 
-    if (onSuccess) {
-      onSuccess();
-    }
+    onSuccess && onSuccess();
   },
 });
 
