@@ -1,8 +1,8 @@
 import { AuthApi } from "@/apis";
-import { message } from "antd";
 import { StateCreator } from "zustand";
 import ErrorResponse from "@/types/commons/ErrorResponse";
 import { AxiosError } from "axios";
+import { antdUtils } from "@utils/antd.util";
 
 type State = {
   token: string | null;
@@ -32,7 +32,7 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
       localStorage.setItem("token", data.token);
       set({ token: data.token, isAuth: data.token !== null });
     } catch (e) {
-      message.error((e as AxiosError<ErrorResponse>).response?.data.detail || "登入失敗");
+      antdUtils.message?.error((e as AxiosError<ErrorResponse>).response?.data.detail || "登入失敗");
     } finally {
       set({ loginProcessing: false });
     }
