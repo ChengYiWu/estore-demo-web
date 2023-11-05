@@ -33,7 +33,7 @@ estoreApi.interceptors.response.use(
     if (error.response?.data) {
       return Promise.reject({
         ...error.response.data,
-        message: error.response.data.detail || error.response.data.message,
+        message: error.response.data.detail || error.response.data.message || error.response.data.errors?.[0]?.message,
       });
     }
 
