@@ -24,15 +24,15 @@ const SitemapList: Sitemap[] = [
         showInMenu: true,
         children: [
           {
-            key: "EditUser",
-            label: "編輯使用者",
-            route: Routes.EditUser,
-            showInMenu: false,
-          },
-          {
             key: "CreateUser",
             label: "新增使用者",
             route: Routes.CreateUser,
+            showInMenu: false,
+          },
+          {
+            key: "EditUser",
+            label: "編輯使用者",
+            route: Routes.EditUser,
             showInMenu: false,
           },
         ],
