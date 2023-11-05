@@ -15,10 +15,10 @@ interface ContentLoadingEnableQueryKey {
 const useStyle = createStyles(({ token }) => ({
   root: {
     background: token.colorBgContainer,
-    margin: "1.5rem 1rem",
+    margin: "1rem",
     padding: "1.5rem 1rem",
     position: "relative",
-    // border: "1px solid red",
+    border: "1px solid red",
   },
   contentLoading: {
     "&.ant-spin-spinning": {

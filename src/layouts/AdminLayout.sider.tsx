@@ -78,7 +78,7 @@ const AdminLayoutSider = () => {
       }}
     >
       <div style={{ margin: "12px" }}>
-        <Link to="/users/create">
+        <Link to="/">
           <img src="https://via.placeholder.com/150x30" alt="logo" />
         </Link>
       </div>
