@@ -1,6 +1,18 @@
+interface Role {
+  name: string;
+}
+
+interface AuthUser {
+  id: string,
+  userName: string,
+  email: string,
+  roles: Role[]
+}
+
 interface loginResponse {
   token: string;
   refreshToken: string;
+  user: AuthUser
 }
 
 interface loginRequest {
@@ -8,4 +20,4 @@ interface loginRequest {
   password: string;
 }
 
-export type { loginResponse, loginRequest };
+export type { loginResponse, loginRequest, AuthUser };
