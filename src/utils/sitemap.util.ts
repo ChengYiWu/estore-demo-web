@@ -6,7 +6,7 @@ const sitemapUtil = {
   // 取得符合 pathname 的 Route 資訊
   getMatchSitemapAndParents: (pathname: string): { sitemap: RouteSitemap; parents: Sitemap[] } | null => {
     const sitemapEntry = [...SitemapParentPathMap.entries()].find(([sitemap]) =>
-      matchPath(pathname, sitemap.route.path),
+      matchPath(sitemap.route.path, pathname),
     );
     return sitemapEntry ? { sitemap: sitemapEntry[0], parents: sitemapEntry[1] } : null;
   },
