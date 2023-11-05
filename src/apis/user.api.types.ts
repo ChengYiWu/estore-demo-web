@@ -20,4 +20,16 @@ interface getUsersResponse {
   hasNextPage: boolean;
 }
 
-export type { getUsersResponse, UserResponse as getUserResponse };
+interface CreateUserRequest {
+  userName: string;
+  email: string;
+  password: string;
+  roles: string[];
+}
+
+interface UpdateUserRequest {
+  userName: string;
+  roles: string[];
+}
+
+export type { getUsersResponse, UserResponse as getUserResponse, CreateUserRequest, UpdateUserRequest };

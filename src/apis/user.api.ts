@@ -1,35 +1,25 @@
 import estoreApi from "./clients";
-import { getUsersResponse, getUserResponse } from "./user.api.types";
+import { getUsersResponse, getUserResponse, CreateUserRequest, UpdateUserRequest } from "./user.api.types";
 
 const UserApi = {
-  getUsers: async (): Promise<getUsersResponse> => {
-    const result = await estoreApi.get("/users");
+  getUsers: async (condition): Promise<getUsersResponse> => {
+    const result = await estoreApi.get("/users", { params: condition });
     return result.data;
   },
   getUser: async (id: string): Promise<getUserResponse> => {
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve({
-    //       id: "e17c51d1-7339-449d-98a9-f87794ce8641",
-    //       userName: "Admin",
-    //       email: "admin@example.com",
-    //       roles: [
-    //         {
-    //           id: 
-    //           name: "Admin",
-    //         },
-    //         {
-    //           name: "Manager",
-    //         },
-    //       ],
-    //     });
-    //   }, 1000);
-    // });
     const result = await estoreApi.get(`/users/${id}`);
     return result.data;
   },
   checkUserEmail: async (email: string): Promise<boolean> => {
     const result = await estoreApi.post(`/users/validEmail`, { email });
+    return result.data;
+  },
+  createUser: async (data: CreateUserRequest): Promise<string> => {
+    const result = await estoreApi.post(`/users`, data);
+    return result.data;
+  },
+  updateUser: async (id: string, data: UpdateUserRequest): Promise<void> => {
+    const result = await estoreApi.put(`/users/${id}`, data);
     return result.data;
   },
 };
