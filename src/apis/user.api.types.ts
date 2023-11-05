@@ -24,12 +24,12 @@ interface CreateUserRequest {
   userName: string;
   email: string;
   password: string;
-  roles: string[];
+  roleNames: string[];
 }
 
 interface UpdateUserRequest {
   userName: string;
-  roles: string[];
+  roleNames: string[];
 }
 
 export type { getUsersResponse, UserResponse as getUserResponse, CreateUserRequest, UpdateUserRequest };

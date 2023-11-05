@@ -15,7 +15,7 @@ interface FormValues {
   userName: string;
   password: string;
   confirmPassword: string;
-  roles: string[];
+  roleNames: string[];
 }
 
 const useStyles = createStyles(() => ({
@@ -49,7 +49,7 @@ const EditUser = () => {
     if (data) {
       const formValues = {
         ...data,
-        roles: data.roles.map((role) => role.id),
+        roleNames: data.roles.map((role) => role.name),
       };
 
       form.setFieldsValue(formValues);
@@ -57,7 +57,7 @@ const EditUser = () => {
   }, [data, form]);
 
   const roleOptions = useMemo(() => {
-    return roleList?.map((role) => ({ label: role.name, value: role.id })) || [];
+    return roleList?.map((role) => ({ label: role.name, value: role.name })) || [];
   }, [roleList]);
 
   const handleFisih = (values: FormValues) => {
@@ -66,11 +66,11 @@ const EditUser = () => {
           email: values.email,
           userName: values.userName,
           password: values.password,
-          roles: values.roles,
+          roleNames: values.roleNames,
         }
       : {
           userName: values.userName,
-          roles: values.roles,
+          roleNames: values.roleNames,
         };
 
     saveUser(data);
@@ -175,7 +175,7 @@ const EditUser = () => {
               </Form.Item>
             </>
           )}
-          <Form.Item name="roles" label="指派角色">
+          <Form.Item name="roleNames" label="指派角色">
             <Select mode="multiple" placeholder="請選擇角色" options={roleOptions} loading={isRoleListLoading} />
           </Form.Item>
           <Form.Item label="">

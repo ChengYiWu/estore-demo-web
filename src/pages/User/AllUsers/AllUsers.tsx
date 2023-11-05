@@ -61,7 +61,7 @@ const Columns: ColumnsType<getUsersResponse["items"][number]> = [
 
 const initPagination = {
   pageNumber: 1,
-  pageSize: 2,
+  pageSize: 10,
 };
 
 const initFormValue = {
