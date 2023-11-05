@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import type { LazyExoticComponent } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 import RequiredAuth from "./RequiredAuth";
@@ -7,7 +6,7 @@ import LoginLayout from "./LoginLayout";
 import NotFound from "@/components/NotFound";
 import { flattenRoutes } from "./routes";
 
-const SuspenseFallback = (Component: LazyExoticComponent<() => JSX.Element>) => {
+const SuspenseFallback = (Component: React.ComponentType) => {
   return (
     <Suspense fallback={<>Loading ...</>}>
       <Component />

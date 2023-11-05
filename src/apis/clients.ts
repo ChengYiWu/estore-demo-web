@@ -1,4 +1,4 @@
-import { router } from "@utils/index";
+import router from "@utils/router.util";
 import { message } from "antd";
 import axios from "axios";
 
