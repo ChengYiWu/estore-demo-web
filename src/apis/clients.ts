@@ -4,7 +4,7 @@ import axios from "axios";
 
 const estoreApi = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
-  timeout: 6000,
+  // timeout: 6000,
 });
 
 // add authorization header to every request
