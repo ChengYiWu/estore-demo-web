@@ -20,11 +20,13 @@ const initState: State = {
 const createContentLoadingSlice: StateCreator<ContentLoadingSlice, [], [], ContentLoadingSlice> = (set) => ({
   ...initState,
   showContentLoading: () => {
-    set((state) => ({ contentLoadingCount: state.contentLoadingCount + 1, contentLoading: true }));
+    set((state) => {
+      return { contentLoadingCount: state.contentLoadingCount + 1, contentLoading: true };
+    });
   },
   hideContentLoading: () => {
     set((state) => {
-      const remainCount = state.contentLoadingCount - 1;
+      const remainCount = Math.max(state.contentLoadingCount - 1, 0);
       return { contentLoadingCount: remainCount, contentLoading: remainCount > 0 };
     });
   },
