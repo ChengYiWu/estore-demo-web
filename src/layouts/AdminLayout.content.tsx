@@ -1,9 +1,9 @@
-import useStore from "@/store/store";
-import { useIsFetching } from "@tanstack/react-query";
 import { Spin, Layout } from "antd";
 import { createStyles } from "antd-style";
-import { last } from "lodash";
 import { Outlet } from "react-router-dom";
+import { useIsFetching } from "@tanstack/react-query";
+import { last } from "lodash";
+import useStore from "@/store/store";
 
 const { Content } = Layout;
 

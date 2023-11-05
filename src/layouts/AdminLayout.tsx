@@ -1,5 +1,3 @@
-import React from "react";
-import type { MenuProps } from "antd";
 import { Layout } from "antd";
 import { createStyles } from "antd-style";
 import AdminLayoutHeader from "./AdminLayout.header";
