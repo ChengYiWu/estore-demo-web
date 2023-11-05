@@ -1,16 +1,9 @@
 import { Spin, Layout } from "antd";
 import { createStyles } from "antd-style";
 import { Outlet } from "react-router-dom";
-import { useIsFetching } from "@tanstack/react-query";
-import { last } from "lodash";
 import useStore from "@/store/store";
 
 const { Content } = Layout;
-
-// 若是要在 Content 內顯示 Loading，則需要在 queryKey 中加入 contentLoadingEnable: true
-interface ContentLoadingEnableQueryKey {
-  contentLoadingEnable: boolean;
-}
 
 const useStyle = createStyles(({ token }) => ({
   root: {
@@ -18,7 +11,8 @@ const useStyle = createStyles(({ token }) => ({
     margin: "1rem",
     padding: "1.5rem 1rem",
     position: "relative",
-    border: "1px solid red",
+    boxShadow: "rgba(0, 0, 0, 0.09) 0px 3px 12px",
+    // border: "1px solid red",
   },
   contentLoading: {
     "&.ant-spin-spinning": {
@@ -39,19 +33,9 @@ const AdminLayoutContent = () => {
   // 檢查 store 是否有任何要 loading 的狀態
   const isContentLoading = useStore((state) => state.contentLoading);
 
-  // 檢查是否有任何正在 query 且要在 Content 內顯示 Loading 的 query
-  const isFetching = useIsFetching({
-    predicate: (query) => {
-      const lastKey = last(query.queryKey) as ContentLoadingEnableQueryKey;
-      return lastKey?.contentLoadingEnable;
-    },
-  });
-
-  const isContentLoadingEnable = isContentLoading || isFetching > 0;
-
   return (
     <Content className={styles.root}>
-      <Spin spinning={isContentLoadingEnable} className={styles.contentLoading} />
+      <Spin spinning={isContentLoading} className={styles.contentLoading} />
       <Outlet />
     </Content>
   );
