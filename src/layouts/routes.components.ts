@@ -4,9 +4,13 @@ import { lazy } from "react";
 const Summary = lazy(() => import("@pages/Dashboard/Summary"));
 const AllUsers = lazy(() => import("@pages/User/AllUsers"));
 const EditUser = lazy(() => import("@pages/User/EditUser"));
+const AllProducts = lazy(() => import("@pages/Product/AllProducts"));
+const EditProduct = lazy(() => import("@pages/Product/EditProduct"));
 
 export default {
   Summary,
   AllUsers,
   EditUser,
+  AllProducts,
+  EditProduct
 };

@@ -1,4 +1,4 @@
-import { BarChartOutlined, TeamOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import { BarChartOutlined, ShopOutlined, ShoppingOutlined, TeamOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { Routes } from "./routes";
 import { RouteSitemap, Sitemap } from "./sitemap.types";
 
@@ -42,13 +42,13 @@ const SitemapList: Sitemap[] = [
   {
     key: "ProductModule",
     label: "商品模組",
-    icon: <TeamOutlined />,
+    icon: <ShopOutlined />,
     showInMenu: true,
     children: [
       {
         key: "AllProducts",
         label: "商品管理",
-        icon: <UserSwitchOutlined />,
+        icon: <ShoppingOutlined />,
         route: Routes.AllProducts,
         showInMenu: true,
         children: [

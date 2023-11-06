@@ -1,7 +1,7 @@
 import { RoutesType } from "./routes.types";
 import Components from "./routes.components";
 
-const { Summary, AllUsers, EditUser } = Components;
+const { Summary, AllUsers, EditUser, AllProducts, EditProduct } = Components;
 
 const Routes: RoutesType = {
   DashboardSummary: {
@@ -22,15 +22,15 @@ const Routes: RoutesType = {
   },
   AllProducts: {
     path: "/products",
-    component: AllUsers,
+    component: AllProducts,
   },
   CreateProduct: {
     path: "/products/create",
-    component: EditUser,
+    component: EditProduct,
   },
   EditProduct: {
     path: "/products/:id",
-    component: EditUser,
+    component: EditProduct,
   },
 };
 
