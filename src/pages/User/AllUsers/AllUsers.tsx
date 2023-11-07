@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Input, Space, Table, Tag } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import useUsers from "./useUsers";
