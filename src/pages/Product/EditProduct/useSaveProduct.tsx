@@ -5,12 +5,14 @@ import ErrorReponse from "@/types/commons/ErrorResponse";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "@/layouts/routes";
 import { antdUtils } from "@utils/antd.util";
+import useAdminLayoutContentLoading from "@/hooks/useAdminLayoutContentLoading";
 
 type SaveProductRequest = CreateProductRequest | UpdateProductRequest;
 
 const useSaveProduct = (id: string, isCreate: boolean) => {
   const navigate = useNavigate();
-  return useMutation<string | void, ErrorReponse, SaveProductRequest>({
+
+  const mutate = useMutation<string | void, ErrorReponse, SaveProductRequest>({
     mutationFn: (data) => {
       if (isCreate) {
         return ProductApi.createProduct(data as CreateProductRequest);
@@ -27,6 +29,12 @@ const useSaveProduct = (id: string, isCreate: boolean) => {
       }
     },
   });
+
+  const { isPending } = mutate;
+
+  useAdminLayoutContentLoading(isPending);
+
+  return mutate;
 };
 
 export default useSaveProduct;

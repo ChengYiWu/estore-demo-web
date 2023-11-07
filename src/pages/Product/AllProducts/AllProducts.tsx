@@ -51,8 +51,8 @@ const AllProducts = () => {
     ...initPagination,
   });
 
-  const { isError, error, isLoading, data } = useProducts(query);
-  const { mutate: deleteProduct } = useDeleteProduct();
+  const { isError, error, isLoading, data, refetch } = useProducts(query);
+  const { mutate: deleteProduct } = useDeleteProduct(refetch);
 
   const [form] = Form.useForm();
 
