@@ -1,69 +1,91 @@
 import type { UploadProps } from "antd";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import type { UploaderProps, UploadFileResponse } from "./Uploader.types";
+import type { FileMimeType, UploaderProps, UploadFileResponse } from "./Uploader.types";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { isNil } from "lodash";
+import { antdUtils } from "@/utils/antd.util";
 
-const Uploader = (props: UploaderProps) => {
-  const { name = "file", value, onChange, action, headers } = props;
+export const FileType: FileMimeType = {
+  JPEG: "image/jpeg",
+  JPG: "image/jpg",
+  PNG: "image/png",
+  GIF: "image/gif",
+};
 
-  // const props: UploadProps<UploadFileResponse> = {
-  //   name: "file",
-  //   action: "https://localhost:7061/api/products/upload",
-  //   headers: {
-  //     authorization: "Bearer " + localStorage.getItem("token"),
-  //   },
-  //   onChange({ file, fileList }) {
-  //     if (file.status !== "uploading") {
-  //       console.log(file, fileList);
-  //     }
-  //     if (file.status === "done") {
-  //       message.success(`${file.name} file uploaded successfully`);
-  //     }
+const FileTypeKeyValueTransform = Object.entries(FileType).reduce((acc, [key, value]) => {
+  acc[value] = key;
+  return acc;
+}, {});
 
-  //     setFileList(fileList);
-  //   },
-  // };
+const Uploader = ({
+  name = "file",
+  value = [],
+  onChange,
+  action,
+  headers,
+  uploadBtnText = "上傳",
+  max,
+  maxFileSize,
+  allowedFileTypes,
+}: UploaderProps) => {
+  const user = useCurrentUser();
 
   const handleChange: UploadProps<UploadFileResponse>["onChange"] = ({ file, fileList }) => {
-    if (file.status === "uploading") {
-      console.info("uploading : ", { file, fileList, percent: file.percent });
-    }
-
-    if (file.status === "done") {
-      console.info("done : ", { file, fileList });
-    }
-
     if (file.status === "error") {
-      console.error("error : ", { file, fileList });
+      antdUtils.message?.error(`${file.name} 上傳失敗`);
+      return;
     }
 
-    onChange(fileList);
-
-    console.log("oncahgne :>> ", { file, fileList });
+    onChange && onChange(fileList);
   };
 
   return (
     <Upload
       name={name}
-      fileList={value}
+      fileList={value || []}
       onChange={handleChange}
       action={`${import.meta.env.VITE_APP_BASE_API}${action}`}
       headers={{
-        authorization: "Bearer " + localStorage.getItem("token"),
+        ...(user?.token ? { authorization: "Bearer " + user?.token } : {}),
         ...headers,
       }}
       listType="picture-card"
+      beforeUpload={(file) => {
+        // 檔案大小限制
+        if (!isNil(maxFileSize)) {
+          if (file.size > maxFileSize) {
+            antdUtils.message?.error(`檔案過大，請勿超過 ${maxFileSize / 1024} MB`);
+            return Upload.LIST_IGNORE;
+          }
+        }
+
+        // 檔案類型限制
+        if (!isNil(allowedFileTypes)) {
+          const fileType = file.type;
+          if (!allowedFileTypes.includes(fileType)) {
+            const allowedFileTypeKeys = allowedFileTypes.map((type) => FileTypeKeyValueTransform[type]);
+            antdUtils.message?.error(`不允許的檔案格式，請上傳 ${allowedFileTypeKeys.join(", ")}`);
+            return Upload.LIST_IGNORE;
+          }
+        }
+
+        return true;
+      }}
     >
-      <div>
-        <PlusOutlined />
-        <div
-          style={{
-            marginTop: 8,
-          }}
-        >
-          Upload
+      {/* {(isNil(max) || (value && value.filter((val) => val.status != "error").length < max)) && ( */}
+      {(isNil(max) || value?.length < max) && (
+        <div>
+          <PlusOutlined />
+          <div
+            style={{
+              marginTop: 8,
+            }}
+          >
+            {uploadBtnText}
+          </div>
         </div>
-      </div>
+      )}
     </Upload>
   );
 };
