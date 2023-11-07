@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { antdUtils } from "@utils/antd.util";
 import useAdminLayoutContentLoading from "@/hooks/useAdminLayoutContentLoading";
 
-const useSaveProduct = (refreshProducts) => {
+const useDeleteProduct = (refreshProducts) => {
   const mutate = useMutation({
     mutationFn: (id: string) => ProductApi.deleteProduct(id),
     onSuccess: () => {
@@ -19,4 +19,4 @@ const useSaveProduct = (refreshProducts) => {
   return mutate;
 };
 
-export default useSaveProduct;
+export default useDeleteProduct;

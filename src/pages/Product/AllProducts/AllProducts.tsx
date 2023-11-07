@@ -1,10 +1,10 @@
 import PaginationQuery from "@/types/commons/PaginationQuery";
-import { Badge, Button, Form, Image, Input, Space, Table } from "antd";
+import { Button, Form, Image, Input, Space, Table } from "antd";
 import { createStyles } from "antd-style";
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useProducts from "./useProducts";
-import { CloseOutlined, PictureOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import routeUtil from "@/utils/route.util";
 import SearchKeywordInputExtraIcon from "@/components/SearchKeywordInputExtraIcon";
 import AlertIfError from "@/components/AlertIfError";
@@ -167,7 +167,7 @@ const AllProducts = () => {
         },
       },
     ];
-  }, []);
+  }, [deleteProduct]);
 
   const handleFinish = (formValues: FormValues) => {
     setQuery({
