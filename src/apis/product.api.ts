@@ -23,6 +23,10 @@ const ProductApi = {
     const result = await estoreApi.put(`/products/${id}`, data);
     return result.data;
   },
+  deleteProduct: async (id: string): Promise<void> => {
+    const result = await estoreApi.delete(`/products/${id}`);
+    return result.data;
+  },
 };
 
 export default ProductApi;

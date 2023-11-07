@@ -7,7 +7,7 @@ import { Routes } from "@/layouts/routes";
 import routeUtil from "@utils/route.util";
 import { getUsersResponse } from "@/apis/user.api.types";
 import type { ColumnsType } from "antd/es/table";
-import EditIcon from "@/components/EditIcon";
+import EditIcon from "@/components/TableEditIcon";
 import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 import PaginationQuery from "@/types/commons/PaginationQuery";

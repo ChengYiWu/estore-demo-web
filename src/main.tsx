@@ -6,6 +6,11 @@ import { StyleProvider, px2remTransformer } from "@ant-design/cssinjs";
 import { ConfigProvider } from "antd";
 import router from "@utils/router.util";
 import theme from "./theme";
+import dayjs from 'dayjs';
+import zhTW from 'antd/locale/zh_TW';
+import 'dayjs/locale/zh-tw';
+
+dayjs.locale('zh-tw');
 
 const queryClient = new QueryClient();
 queryClient.setDefaultOptions({
@@ -23,7 +28,7 @@ const px2rem = px2remTransformer({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ConfigProvider theme={theme}>
+      <ConfigProvider theme={theme} locale={zhTW}>
         <StyleProvider transformers={[px2rem]}>
           <RouterProvider router={router} />
         </StyleProvider>

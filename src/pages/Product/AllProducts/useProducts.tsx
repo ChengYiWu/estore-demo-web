@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const useProducts = (condition) => {
   const query = useQuery({
-    queryKey: ["users", condition],
+    queryKey: ["products", condition],
     queryFn: () => ProductApi.getProducts(condition),
     enabled: false,
   });

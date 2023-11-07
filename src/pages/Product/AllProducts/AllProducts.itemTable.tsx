@@ -1,8 +1,9 @@
 import { GetProductsResponse } from "@/apis/product.api.types";
+import TableEmptyColumn from "@/components/TableEmptyColumn";
 import TableOverflowColumn from "@/components/TableOverflowColumn";
 import TablePriceColumn from "@/components/TablePriceColumn";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Table, Tooltip } from "antd";
+import { Table, Tooltip, Image } from "antd";
 import { ColumnsType } from "antd/es/table";
 
 interface AllProductsItemTableProps {
@@ -10,6 +11,22 @@ interface AllProductsItemTableProps {
 }
 
 const Columns: ColumnsType<GetProductsResponse["items"][number]["productItems"][number]> = [
+  {
+    key: "image",
+    title: "品項圖片",
+    dataIndex: "image",
+    align: "center",
+    width: "6rem",
+    render: (_, { image }) => {
+      return image ? (
+        <Image.PreviewGroup items={[image.uri]}>
+          <Image src={image.uri} />
+        </Image.PreviewGroup>
+      ) : (
+        <TableEmptyColumn />
+      );
+    },
+  },
   {
     key: "name",
     title: "項目名稱",
@@ -33,7 +50,7 @@ const Columns: ColumnsType<GetProductsResponse["items"][number]["productItems"][
     title: "剩餘庫存",
     align: "right",
     dataIndex: "stockQuantity",
-    width: "8rem",
+    width: "6rem",
     render: (_, { stockQuantity }) => {
       return (
         <span style={{ color: stockQuantity <= 20 ? "red" : "" }}>
@@ -44,41 +61,40 @@ const Columns: ColumnsType<GetProductsResponse["items"][number]["productItems"][
   },
   {
     key: "placedOrderCount",
-    title: "已下訂數量",
+    title: "下訂",
     align: "right",
     dataIndex: "placedOrderCount",
-    width: "8rem",
+    width: "4rem",
     render: (_, { placedOrderCount }) => {
       return <TablePriceColumn value={placedOrderCount} />;
     },
   },
   {
     key: "cancelledOrderCount",
-    title: "已取消數量",
+    title: "取消",
     align: "right",
     dataIndex: "cancelledOrderCount",
-    width: "8rem",
+    width: "4rem",
     render: (_, { cancelledOrderCount }) => {
       return <TablePriceColumn value={cancelledOrderCount} />;
     },
   },
   {
     key: "shippedOrderCount",
-    title: "已出貨數量",
+    title: "出貨",
     align: "right",
     dataIndex: "shippedOrderCount",
-    width: "8rem",
+    width: "4rem",
     render: (_, { cancelledOrderCount }) => {
       return <TablePriceColumn value={cancelledOrderCount} />;
     },
   },
   {
     key: "isActive",
-    title: "是否上架",
+    title: "上架",
     dataIndex: "name",
     align: "center",
-    fixed: "right",
-    width: "8rem",
+    width: "4rem",
     render: (_, { isActive }) => {
       return isActive ? (
         <Tooltip title="已上架">
