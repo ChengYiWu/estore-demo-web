@@ -11,6 +11,7 @@ import TableOverflowColumn from "@components/TableOverflowColumn";
 import TableEditIcon from "@components/TableEditIcon";
 import routeUtil from "@utils/route.util";
 import { antdUtils } from "@utils/antd.util";
+import CouponSystemCodes from "@utils/systemCodes/coupon";
 import { GetCouponsResponse } from "@apis/coupon.api.types";
 import { Routes } from "@/layouts/routes";
 import useCoupons from "./useCoupons";
@@ -46,21 +47,6 @@ const initFormValue = {
   type: null,
 };
 
-const TypeMap = {
-  PriceAmountDiscount: {
-    label: "折扣金額",
-    value: "PriceAmountDiscount",
-    color: "#f50",
-    unit: "元",
-  },
-  PercentDiscount: {
-    label: "折扣百分比",
-    value: "PercentDiscount",
-    color: "#2db7f5",
-    unit: "%",
-  },
-};
-
 const AllCoupons = () => {
   const { styles } = useStyle();
   const navigate = useNavigate();
@@ -84,7 +70,7 @@ const AllCoupons = () => {
         width: "4rem",
         fixed: "left",
         render: (_: string, record) => (
-          <Link to={`${routeUtil.getRoutePath(Routes.EditProduct, { id: record.id })}`}>
+          <Link to={`${routeUtil.getRoutePath(Routes.EditCoupon, { id: record.id })}`}>
             <TableEditIcon />
           </Link>
         ),
@@ -96,21 +82,24 @@ const AllCoupons = () => {
         align: "center",
         width: "4rem",
         fixed: "left",
-        render: (_: string, { id, title }) => (
-          <Button
-            type="link"
-            onClick={() => {
-              antdUtils.modal?.confirm({
-                title: "確認刪除",
-                content: `確定要刪除「${title}」優惠券嗎？`,
-                onOk: () => {
-                  deleteCoupon(id.toString());
-                },
-              });
-            }}
-            icon={<TableDeleteIcon />}
-          />
-        ),
+        render: (_: string, { id, title, usedOrderCount }) =>
+          usedOrderCount <= 0 ? (
+            <Button
+              type="link"
+              onClick={() => {
+                antdUtils.modal?.confirm({
+                  title: "確認刪除",
+                  content: `確定要刪除「${title}」優惠券嗎？`,
+                  onOk: () => {
+                    deleteCoupon(id.toString());
+                  },
+                });
+              }}
+              icon={<TableDeleteIcon />}
+            />
+          ) : (
+            <TableEmptyColumn />
+          ),
       },
       {
         key: "title",
@@ -160,16 +149,16 @@ const AllCoupons = () => {
         width: "8rem",
         render: (_, { type, priceAmountDiscount, pricePercentDiscount }) => {
           switch (type) {
-            case TypeMap.PriceAmountDiscount.value:
+            case CouponSystemCodes.PriceAmountDiscount.value:
               return (
-                <Tag style={{ color: TypeMap[type].color }}>
-                  {TypeMap[type].label} / {priceAmountDiscount} {TypeMap.PriceAmountDiscount.unit}
+                <Tag style={{ color: CouponSystemCodes[type].color }}>
+                  {CouponSystemCodes[type].label} / {priceAmountDiscount} {CouponSystemCodes.PriceAmountDiscount.unit}
                 </Tag>
               );
-            case TypeMap.PercentDiscount.value:
+            case CouponSystemCodes.PricePercentDiscount.value:
               return (
-                <Tag style={{ color: TypeMap[type].color }}>
-                  {TypeMap[type].label} / {pricePercentDiscount} {TypeMap.PercentDiscount.unit}
+                <Tag style={{ color: CouponSystemCodes[type].color }}>
+                  {CouponSystemCodes[type].label} / {pricePercentDiscount} {CouponSystemCodes.PricePercentDiscount.unit}
                 </Tag>
               );
             default:

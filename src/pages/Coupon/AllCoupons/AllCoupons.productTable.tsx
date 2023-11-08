@@ -17,6 +17,8 @@ const Columns: ColumnsType<GetCouponsResponse["items"][number]["applicableProduc
     key: "productItemCount",
     title: "商品項目數量",
     dataIndex: "ProductItemCount",
+    align: "right",
+    width: "10rem",
     render: (_, { productItemCount }) => {
       return productItemCount.toLocaleString();
     },

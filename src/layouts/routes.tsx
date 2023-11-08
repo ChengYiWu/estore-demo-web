@@ -35,7 +35,7 @@ const Routes: RoutesType = {
     component: AllCoupons,
   },
   CreateCoupon: {
-    path: "/coupons/:id",
+    path: "/coupons/create",
     component: EditCoupon,
   },
   EditCoupon: {
