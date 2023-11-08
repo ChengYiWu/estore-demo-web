@@ -6,3 +6,5 @@ export { default as RoleApi } from "./role.api";
 export * as RoleApiTypes from "./role.api.types";
 export { default as ProductApi } from "./product.api";
 export * as ProductApiTypes from "./product.api.types";
+export { default as CouponApi } from "./coupon.api";
+export * as CouponApiTypes from "./coupon.api.types";

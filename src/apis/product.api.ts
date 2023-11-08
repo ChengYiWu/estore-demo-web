@@ -1,12 +1,17 @@
 import estoreApi from "./clients";
 import {
   CreateProductRequest,
+  GetProductListResponse,
   GetProductResponse,
   GetProductsResponse,
   UpdateProductRequest,
 } from "./product.api.types";
 
 const ProductApi = {
+  getList: async (): Promise<GetProductListResponse> => {
+    const result = await estoreApi.get("/products/list");
+    return result.data;
+  },
   getProducts: async (condition): Promise<GetProductsResponse> => {
     const result = await estoreApi.get("/products", { params: condition });
     return result.data;

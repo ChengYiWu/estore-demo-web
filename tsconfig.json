@@ -14,7 +14,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
-
+    "allowSyntheticDefaultImports": true,
+    
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -25,13 +26,13 @@
     /* Alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
-      "@apis/*": ["src/apis/*"]
+      "@apis/*": ["src/apis/*"],
+      "@/*": ["src/*"],
     }
   },
   "include": ["src"],
