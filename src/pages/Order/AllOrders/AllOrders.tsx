@@ -29,7 +29,7 @@ type FormValues = {
 
 type QueryValues = FormValues & PaginationQuery;
 
-const useStyle = createStyles(({ token }) => ({
+const useStyle = createStyles(() => ({
   searchWrapper: {
     marginBottom: "1rem",
   },

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import useProductList from "@hooks/useProductList";
-import { Button, Form, InputNumber, Modal, Select, Space, Tag } from "antd";
+import { Button, Form, InputNumber, Modal, Select, Tag } from "antd";
 import AlertIfError from "@components/AlertIfError";
 import { GetProductListResponse } from "@apis/product.api.types";
 import { InfoCircleOutlined } from "@ant-design/icons";
