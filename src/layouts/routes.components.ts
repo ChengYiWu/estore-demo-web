@@ -8,5 +8,7 @@ const AllProducts = lazy(() => import("@pages/Product/AllProducts"));
 const EditProduct = lazy(() => import("@pages/Product/EditProduct"));
 const AllCoupons = lazy(() => import("@pages/Coupon/AllCoupons"));
 const EditCoupon = lazy(() => import("@pages/Coupon/EditCoupon"));
+const AllOrders = lazy(() => import("@pages/Order/AllOrders"));
+const PlaceOrder = lazy(() => import("@pages/Order/PlaceOrder"));
 
-export { Summary, AllUsers, EditUser, AllProducts, EditProduct, AllCoupons, EditCoupon };
+export { Summary, AllUsers, EditUser, AllProducts, EditProduct, AllCoupons, EditCoupon, AllOrders, PlaceOrder };

@@ -32,4 +32,17 @@ interface UpdateUserRequest {
   roleNames: string[];
 }
 
-export type { getUsersResponse, UserResponse as getUserResponse, CreateUserRequest, UpdateUserRequest };
+type GetUserListResponse = UserListItem[];
+
+interface UserListItem {
+  id: string;
+  userName: string;
+}
+
+export type {
+  getUsersResponse,
+  UserResponse as getUserResponse,
+  CreateUserRequest,
+  UpdateUserRequest,
+  GetUserListResponse,
+};

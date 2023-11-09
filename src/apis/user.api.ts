@@ -1,7 +1,11 @@
 import estoreApi from "./clients";
-import { getUsersResponse, getUserResponse, CreateUserRequest, UpdateUserRequest } from "./user.api.types";
+import { getUsersResponse, getUserResponse, CreateUserRequest, UpdateUserRequest, GetUserListResponse } from "./user.api.types";
 
 const UserApi = {
+  getList: async (): Promise<GetUserListResponse> => {
+    const result = await estoreApi.get("/users/list");
+    return result.data;
+  },
   getUsers: async (condition): Promise<getUsersResponse> => {
     const result = await estoreApi.get("/users", { params: condition });
     return result.data;
