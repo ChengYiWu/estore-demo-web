@@ -20,6 +20,7 @@ interface OrderResponse {
 interface OrderItem {
   orderItemId: number;
   orderItemPrice: number;
+  orderItemQuantity: number;
   productId: number;
   productName: string;
   productItemName: string;
@@ -49,12 +50,7 @@ interface PlaceOrderItem {
   quantity: number;
 }
 
-interface ChangeOrderStatusToShippedRequest {
-  orderNo: string;
-}
-
 interface ChangeOrderStatusToCancelledRequest {
-  orderNo: string;
   reason: string;
 }
 
@@ -62,6 +58,5 @@ export type {
   GetOrdersResponse,
   OrderResponse as GetOrderResponse,
   PlaceOrderRequest,
-  ChangeOrderStatusToShippedRequest,
   ChangeOrderStatusToCancelledRequest,
 };

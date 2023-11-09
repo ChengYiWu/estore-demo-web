@@ -17,6 +17,7 @@ import type PaginationQuery from "@/types/commons/PaginationQuery";
 import routeUtil from "@utils/route.util";
 import { Routes } from "@/layouts/routes";
 import { useNavigate } from "react-router-dom";
+import ViewOrder from "../ViewOrder";
 
 const { useBreakpoint } = Grid;
 
@@ -64,7 +65,7 @@ const AllOrders = () => {
     ...initPagination,
   });
 
-  const [viewOrderNo, setViewOrderNo] = useState<string>();
+  const [viewOrderNo, setViewOrderNo] = useState<string>("");
 
   const { isError, error, isLoading, data, refetch } = useOrders(query);
 
@@ -101,7 +102,6 @@ const AllOrders = () => {
               <TableOverflowColumn value={orderNo} hasTooltip />
             </Typography.Text>
           );
-          // return <TableOverflowColumn value={orderNo} hasTooltip />;
         },
       },
       {
@@ -179,9 +179,23 @@ const AllOrders = () => {
     });
   };
 
+  const handleViewOrderClose = () => {
+    setViewOrderNo("");
+  };
+
+  const handleViewOrderChangeStatusSuccess = () => {
+    refetch();
+  };
+
   return (
     <div>
       <AlertIfError isError={isError} description={error?.message} />
+      <ViewOrder
+        open={!!viewOrderNo}
+        orderNo={viewOrderNo}
+        onClose={handleViewOrderClose}
+        onChangeStatusSuccess={handleViewOrderChangeStatusSuccess}
+      />
       <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
         <Space size={[8, 16]} wrap>
           <Form.Item name="search" noStyle>

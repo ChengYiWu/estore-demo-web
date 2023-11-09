@@ -1,7 +1,6 @@
 import estoreApi from "./clients";
 import {
   ChangeOrderStatusToCancelledRequest,
-  ChangeOrderStatusToShippedRequest,
   GetOrderResponse,
   GetOrdersResponse,
   PlaceOrderRequest,
@@ -20,12 +19,12 @@ const OrderApi = {
     const result = await estoreApi.post(`/orders`, data);
     return result.data;
   },
-  changeOrderStatusToShipped: async (orderNo: string, data: ChangeOrderStatusToShippedRequest): Promise<void> => {
-    const result = await estoreApi.put(`/orders/${orderNo}`, data);
+  changeOrderStatusToShipped: async (orderNo: string): Promise<void> => {
+    const result = await estoreApi.put(`/orders/${orderNo}/shipped`);
     return result.data;
   },
   changeOrderStatusToCancelled: async (orderNo: string, data: ChangeOrderStatusToCancelledRequest): Promise<void> => {
-    const result = await estoreApi.put(`/orders/${orderNo}`, data);
+    const result = await estoreApi.put(`/orders/${orderNo}/cancelled`, data);
     return result.data;
   },
 };
