@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Button, Col, Form, Input, Row, Select, Space, Table } from "antd";
+import { Button, Col, Form, Input, Row, Select, Space, Table, Tag } from "antd";
 import { createStyles } from "antd-style";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
@@ -15,6 +15,7 @@ import usePlaceOrder from "./usePlaceOrder";
 import { groupBy, map } from "lodash";
 
 import type { ProductItemWithQuantity } from "./PlaceOrder.productModal";
+import useCouponList from "@hooks/useCouponList";
 
 type ProductItemFormValues = {
   productItemId: number;
@@ -98,6 +99,9 @@ const useStyles = createStyles(({ token }) => ({
       },
     },
   },
+  couponSelectTag: {
+    marginLeft: "0.5rem",
+  },
 }));
 
 // TODO 尚未加入優惠券使用
@@ -113,6 +117,12 @@ const PlaceOrder = () => {
   } = useUserList();
 
   const { mutate: placeOrder, error, isError } = usePlaceOrder();
+  const {
+    data: couponList,
+    isLoading: isCouponListLoading,
+    error: couponListError,
+    isError: isCouponListError,
+  } = useCouponList();
 
   const [productItemModal, setProductItemModal] = useState<ProductItemModal>({
     open: false,
@@ -132,6 +142,24 @@ const PlaceOrder = () => {
   const userListOptions = useMemo(() => {
     return userList?.map(({ id, userName }) => ({ value: id, label: userName })) || [];
   }, [userList]);
+
+  const couponListOptions = useMemo(() => {
+    return (
+      couponList?.items?.map(({ code, title, applicableProducts }) => ({
+        value: code,
+        label: (
+          <span>
+            {title}
+            <span className={styles.couponSelectTag}>
+              {applicableProducts.map((applicableProduct) => (
+                <Tag key={applicableProduct.id}>{applicableProduct.name}</Tag>
+              ))}
+            </span>
+          </span>
+        ),
+      })) || []
+    );
+  }, [couponList, styles]);
 
   const handleFisih = (values: OrderFormValues) => {
     if (productItemModal.productItems.length === 0) {
@@ -167,6 +195,10 @@ const PlaceOrder = () => {
 
       return { ...pre, modifyProductItem: null, productItems: newProductItems, open: false };
     });
+
+    setTimeout(() => {
+      form.validateFields(["couponCode"]);
+    }, 0);
   };
 
   const handleCancelProductItem = () => {
@@ -182,6 +214,10 @@ const PlaceOrder = () => {
       const remaingProductItems = pre.productItems.filter((item) => item.id !== productItem.id);
       return { ...pre, productItems: remaingProductItems };
     });
+
+    setTimeout(() => {
+      form.validateFields(["couponCode"]);
+    }, 0);
   };
 
   const itemLayout = {
@@ -247,6 +283,35 @@ const PlaceOrder = () => {
           ]}
         >
           <Select options={userListOptions} loading={isUserListLoading} placeholder="請選擇訂購顧客" />
+        </Form.Item>
+        <Form.Item
+          name="couponCode"
+          label="優惠券"
+          rules={[
+            {
+              validator(_, value) {
+                if (value && productItemModal.productItems?.length > 0) {
+                  const currentCoupon = couponList?.items?.find((coupon) => coupon.code === value);
+
+                  if (currentCoupon) {
+                    const allowedProductIds = currentCoupon.applicableProducts.map(
+                      (applicableProduct) => applicableProduct.id,
+                    );
+
+                    const isAllProductAllowed = productItemModal.productItems.every(({ productId }) =>
+                      allowedProductIds.includes(productId),
+                    );
+
+                    return isAllProductAllowed ? Promise.resolve() : Promise.reject("優惠券不適用於購買清單商品");
+                  }
+                }
+
+                return Promise.resolve();
+              },
+            },
+          ]}
+        >
+          <Select options={couponListOptions} loading={isCouponListLoading} placeholder="請選擇優惠券" />
         </Form.Item>
         <Form.Item label="購買清單" required>
           <div>
