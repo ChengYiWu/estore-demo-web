@@ -32,7 +32,7 @@ const useStyle = createStyles(({ token }) => ({
   contentTop: {
     position: "relative",
     padding: "4rem",
-    background: "#2651a5",
+    background: token.colorPrimary,
   },
 
   contentInfoWrapper: {
@@ -41,7 +41,6 @@ const useStyle = createStyles(({ token }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // border: "1px solid red",
   },
   contentAvatar: {
     zIndex: 2,
@@ -81,7 +80,6 @@ const useStyle = createStyles(({ token }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    // border: "1px solid red",
 
     "& .item": {
       flex: 1,
@@ -168,11 +166,9 @@ const AdminLayoutHeader = () => {
                     </Tooltip>
                   )}
                   {user.userName}
-                  {/* Chris CY Wu */}
                 </div>
                 <div className="email">
                   {user.email}
-                  {/* demo@gmail.com */}
                 </div>
               </div>
             </div>
@@ -197,7 +193,7 @@ const AdminLayoutHeader = () => {
                   icon={<EditOutlined />}
                   onClick={() => {
                     setOpen(false);
-                    navigate(routeUtil.getRoutePath(Routes.EditUser, { id: "875ac4fd-a3a4-446c-9a2a-c5ac3da2b363" }));
+                    navigate(routeUtil.getRoutePath(Routes.EditUser, { id: user.id }));
                   }}
                 >
                   修改
