@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Sitemap } from "./sitemap.types";
 import { SitemapList } from "./sitemap";
 import sitemapUtil from "@/utils/sitemap.util";
+import logo from "@/assets/logo.png";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -79,7 +80,7 @@ const AdminLayoutSider = () => {
     >
       <div style={{ margin: "12px" }}>
         <Link to="/">
-          <img src="https://via.placeholder.com/150x30" alt="logo" />
+          <img src={logo} alt="logo" width={"100%"}/>
         </Link>
       </div>
       <Menu

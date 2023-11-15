@@ -7,7 +7,7 @@ interface ProductItem {
   price: number;
   stockQuantity: number;
   isActive: boolean;
-  image? : ExistFile
+  image?: ExistFile;
   placedOrderCount: number;
   shippedOrderCount: number;
   cancelledOrderCount: number;
@@ -68,4 +68,27 @@ type UpdateProductItem = {
   isActive?: boolean | null;
 } & SingleFileUpload;
 
-export type { GetProductsResponse, ProductResponse as GetProductResponse, CreateProductRequest, UpdateProductRequest };
+interface GetProductListResponse {
+  items: ProductListItem[];
+}
+
+interface ProductListItem {
+  id: number;
+  name: string;
+  productItems: ProductListProductItem[];
+}
+
+interface ProductListProductItem {
+  id: number;
+  name: string;
+  price: number;
+  stockQuantity: number;
+}
+
+export type {
+  GetProductsResponse,
+  ProductResponse as GetProductResponse,
+  CreateProductRequest,
+  UpdateProductRequest,
+  GetProductListResponse,
+};
