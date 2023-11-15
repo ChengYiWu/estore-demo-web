@@ -104,7 +104,6 @@ const useStyles = createStyles(({ token }) => ({
   },
 }));
 
-// TODO 尚未加入優惠券使用
 const PlaceOrder = () => {
   const { styles } = useStyles();
   const navigate = useNavigate();
@@ -235,6 +234,7 @@ const PlaceOrder = () => {
       />
       <AlertIfError isError={isUserListError} description={userListError?.message} />
       <AlertIfError isError={isError} description={error?.message} />
+      <AlertIfError isError={isCouponListError} description={couponListError?.message} />
       <Form form={form} onFinish={handleFisih} colon={false} labelCol={{ span: 3 }} wrapperCol={{ span: 18 }}>
         <Form.Item
           name="contactPhone"
