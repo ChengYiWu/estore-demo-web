@@ -64,6 +64,7 @@ interface CouponListItem {
   type: string;
   priceAmountDiscount?: number;
   pricePercentDiscount?: number;
+  applicableProducts: CouponApplicableProduct[];
 }
 
 interface GetCouponListResponse {

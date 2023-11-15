@@ -1,19 +1,20 @@
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import useStore from "@store/index";
-import { Alert, Button, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { createStyles } from "antd-style";
 import { antdUtils } from "@utils/antd.util";
-import { useEffect } from "react";
+import logo from "@/assets/logo.png";
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-const useStyle = createStyles(({ token }) => ({
+const useStyle = createStyles(() => ({
   root: {
     height: "100vh",
-    background: token.colorBgBlur,
+    background: "#dbf2fe",
     overflow: "hidden",
     display: "flex",
     alignItems: "center",
@@ -23,15 +24,23 @@ const useStyle = createStyles(({ token }) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100%",
     width: "clamp(15rem, 50%, 25rem)",
     padding: "1rem",
-    border: "1px solid red",
     flexDirection: "column",
     gap: "1rem",
+    boxShadow: "2px 1px 15px 2px rgba(0,0,0,0.73)",
+    background: "#0f3a4a",
+    borderRadius: "0.5rem",
+
+    "& .ant-form-item-label>label": {
+      color: "white",
+    },
   },
   info: {
-    border: "1px solid red",
+    "& img": {
+      width: "18.75rem",
+      maxWidth: "100%",
+    },
   },
   form: {
     width: "100%",
@@ -67,12 +76,7 @@ const LoginLayout = () => {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={styles.info}>
-          <img src="https://picsum.photos/300/100" alt="" />
-          <Alert
-            message="Info Text"
-            description="Info Description Info Description Info Description Info Description"
-            type="info"
-          />
+          <img src={logo} alt="" />
         </div>
         <Form
           name="loginForm"

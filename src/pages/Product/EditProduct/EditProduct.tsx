@@ -174,40 +174,13 @@ const EditProduct = () => {
           >
             <Input.TextArea placeholder="請輸入商品描述" />
           </Form.Item>
-          <Form.Item
-            name="brand"
-            label="商品品牌"
-            rules={[
-              {
-                required: true,
-                message: "請輸入商品品牌",
-              },
-            ]}
-          >
+          <Form.Item name="brand" label="商品品牌">
             <Input placeholder="請輸入商品品牌" />
           </Form.Item>
-          <Form.Item
-            name="weight"
-            label="商品重量"
-            rules={[
-              {
-                required: true,
-                message: "請輸入商品重量",
-              },
-            ]}
-          >
+          <Form.Item name="weight" label="商品重量">
             <Input placeholder="請輸入商品重量" />
           </Form.Item>
-          <Form.Item
-            name="dimensions"
-            label="商品尺寸"
-            rules={[
-              {
-                required: true,
-                message: "請輸入商品尺寸",
-              },
-            ]}
-          >
+          <Form.Item name="dimensions" label="商品尺寸">
             <Input placeholder="請輸入商品尺寸" />
           </Form.Item>
           <Form.Item

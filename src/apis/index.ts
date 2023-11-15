@@ -8,3 +8,5 @@ export { default as ProductApi } from "./product.api";
 export * as ProductApiTypes from "./product.api.types";
 export { default as CouponApi } from "./coupon.api";
 export * as CouponApiTypes from "./coupon.api.types";
+export { default as OrderApi } from "./order.api";
+export * as OrderApiTypes from "./order.api.types";

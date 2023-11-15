@@ -1,5 +1,15 @@
 import { RoutesType } from "./routes.types";
-import { Summary, AllUsers, EditUser, AllProducts, EditProduct, AllCoupons, EditCoupon } from "./routes.components";
+import {
+  Summary,
+  AllUsers,
+  EditUser,
+  AllProducts,
+  EditProduct,
+  AllCoupons,
+  EditCoupon,
+  AllOrders,
+  PlaceOrder
+} from "./routes.components";
 
 const Routes: RoutesType = {
   DashboardSummary: {
@@ -42,6 +52,14 @@ const Routes: RoutesType = {
     path: "/coupons/:id",
     component: EditCoupon,
   },
+  AllOrders: {
+    path: "/orders",
+    component: AllOrders,
+  },
+  PlaceOrder: {
+    path: "/orders/create",
+    component: PlaceOrder
+  }
 };
 
 const flattenRoutes = Object.values(Routes);

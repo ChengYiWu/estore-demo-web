@@ -2,6 +2,8 @@ import {
   AccountBookOutlined,
   BarChartOutlined,
   CreditCardOutlined,
+  ProfileOutlined,
+  ReconciliationOutlined,
   ShopOutlined,
   ShoppingOutlined,
   TeamOutlined,
@@ -99,6 +101,29 @@ const SitemapList: Sitemap[] = [
             key: "CreateCoupon",
             label: "新增優惠券",
             route: Routes.CreateCoupon,
+            showInMenu: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: "OrderModule",
+    label: "訂單模組",
+    icon: <ReconciliationOutlined />,
+    showInMenu: true,
+    children: [
+      {
+        key: "AllOrders",
+        label: "訂單管理",
+        icon: <ProfileOutlined />,
+        route: Routes.AllOrders,
+        showInMenu: true,
+        children: [
+          {
+            key: "PlaceOrder",
+            label: "訂購商品",
+            route: Routes.PlaceOrder,
             showInMenu: false,
           },
         ],
