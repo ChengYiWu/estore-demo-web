@@ -31,7 +31,7 @@ jobs:
           app_location: "/" # App source code path
           api_location: "" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
-          app_build_command: "yarn run build-dev" # 此網站用於測試，故採用 build-dev 指令
+          app_build_command: "yarn run build-prod" # 正式機
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
