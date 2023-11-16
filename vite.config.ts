@@ -7,14 +7,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 export default defineConfig({
   plugins: [
     react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: normalizePath(path.resolve(__dirname, './staticwebapp.config.js')),
-          dest: "./",
-        },
-      ],
-    }),
+    // viteStaticCopy({
+    //   targets: [
+    //     {
+    //       src: normalizePath(path.resolve(__dirname, './staticwebapp.config.js')),
+    //       dest: "./",
+    //     },
+    //   ],
+    // }),
   ],
   resolve: {
     alias: {
