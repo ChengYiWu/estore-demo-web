@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { AuthApi } from "@/apis";
 import { StateCreator } from "zustand";
 import ErrorResponse from "@/types/commons/ErrorResponse";
@@ -6,6 +5,7 @@ import { AxiosError } from "axios";
 import { antdUtils } from "@utils/antd.util";
 import { isNil } from "lodash";
 import { AuthUser } from "@/apis/auth.api.types";
+import router from "@utils/router.util";
 
 type State = {
   token: string | null;
@@ -49,6 +49,8 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
     set(initState);
 
     onSuccess && onSuccess();
+
+    router.navigate("/login");
   },
 });
 
