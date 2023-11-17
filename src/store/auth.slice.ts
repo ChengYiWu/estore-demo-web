@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { AuthApi } from "@/apis";
 import { StateCreator } from "zustand";
 import ErrorResponse from "@/types/commons/ErrorResponse";
@@ -37,7 +38,7 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
       localStorage.setItem("user", JSON.stringify(data.user));
       set({ token: data.token, user: data.user, isAuth: data.token !== null });
     } catch (e) {
-      antdUtils.message?.error((e as AxiosError<ErrorResponse>).response?.data.detail || "登入失敗");
+      antdUtils.message?.error((e as AxiosError<ErrorResponse>)?.message || "登入失敗");
     } finally {
       set({ loginProcessing: false });
     }
