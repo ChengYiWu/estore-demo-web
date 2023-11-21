@@ -18,6 +18,7 @@ import routeUtil from "@utils/route.util";
 import { Routes } from "@/layouts/routes";
 import { useNavigate } from "react-router-dom";
 import ViewOrder from "../ViewOrder";
+import Content from "@components/Content";
 
 const { useBreakpoint } = Grid;
 
@@ -188,7 +189,7 @@ const AllOrders = () => {
   };
 
   return (
-    <div>
+    <Content>
       <AlertIfError isError={isError} description={error?.message} />
       <ViewOrder
         open={!!viewOrderNo}
@@ -258,7 +259,7 @@ const AllOrders = () => {
           },
         }}
       />
-    </div>
+    </Content>
   );
 };
 

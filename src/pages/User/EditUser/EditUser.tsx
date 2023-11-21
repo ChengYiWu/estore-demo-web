@@ -7,6 +7,7 @@ import useRoleList from "@hooks/useRoleList";
 import { UserApi } from "@apis/index";
 import useGetEditUser from "./useGetEditUser";
 import useSaveUser from "./useSaveUser";
+import Content from "@components/Content";
 
 const { Title } = Typography;
 
@@ -78,128 +79,130 @@ const EditUser = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <AlertIfError isError={isError} description={error?.message} />
-      <AlertIfError isError={isRoleListError} description={roleListError?.message} />
-      <AlertIfError isError={isSaveError} description={saveError?.message} />
-      <div>
-        <Form form={form} onFinish={handleFisih} colon={false} layout="vertical">
-          <Form.Item
-            name="email"
-            label="電子信箱"
-            // Notice: 避免太常觸發 Email 驗證 API
-            validateFirst
-            validateDebounce={500}
-            hasFeedback
-            rules={
-              isCreate
-                ? [
+    <Content>
+      <div className={styles.root}>
+        <AlertIfError isError={isError} description={error?.message} />
+        <AlertIfError isError={isRoleListError} description={roleListError?.message} />
+        <AlertIfError isError={isSaveError} description={saveError?.message} />
+        <div>
+          <Form form={form} onFinish={handleFisih} colon={false} layout="vertical">
+            <Form.Item
+              name="email"
+              label="電子信箱"
+              // Notice: 避免太常觸發 Email 驗證 API
+              validateFirst
+              validateDebounce={500}
+              hasFeedback
+              rules={
+                isCreate
+                  ? [
+                      {
+                        required: true,
+                        message: "請填寫電子信箱。",
+                      },
+                      {
+                        type: "email",
+                        message: "請填寫正確的電子信箱格式。",
+                      },
+                      {
+                        async validator(_, value) {
+                          if (value) {
+                            const isValid = await UserApi.checkUserEmail(value);
+                            if (!isValid) {
+                              return Promise.reject(new Error("電子信箱已被使用"));
+                            }
+                            return Promise.resolve();
+                          }
+                        },
+                      },
+                    ]
+                  : []
+              }
+            >
+              {isCreate ? (
+                <Input placeholder="請輸入電子信箱" />
+              ) : (
+                <Title level={5} className={styles.emailLabel}>
+                  {data?.email}
+                </Title>
+              )}
+            </Form.Item>
+            <Form.Item
+              name="userName"
+              label="姓名"
+              rules={[
+                {
+                  required: true,
+                  message: "請填寫姓名。",
+                },
+              ]}
+            >
+              <Input placeholder="請輸入姓名" />
+            </Form.Item>
+            {isCreate && (
+              <>
+                <Form.Item
+                  name="password"
+                  label="密碼"
+                  rules={[
                     {
                       required: true,
-                      message: "請填寫電子信箱。",
+                      message: "請填寫密碼。",
                     },
+                  ]}
+                >
+                  <Input.Password placeholder="請輸入密碼" />
+                </Form.Item>
+                <Form.Item
+                  name="confirmPassword"
+                  label="再次輸入密碼"
+                  dependencies={["password"]}
+                  hasFeedback
+                  rules={[
                     {
-                      type: "email",
-                      message: "請填寫正確的電子信箱格式。",
+                      required: true,
+                      message: "請再次輸入密碼",
                     },
-                    {
-                      async validator(_, value) {
-                        if (value) {
-                          const isValid = await UserApi.checkUserEmail(value);
-                          if (!isValid) {
-                            return Promise.reject(new Error("電子信箱已被使用"));
-                          }
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
                         }
+                        return Promise.reject(new Error("兩次輸入的密碼不一致"));
                       },
-                    },
-                  ]
-                : []
-            }
-          >
-            {isCreate ? (
-              <Input placeholder="請輸入電子信箱" />
-            ) : (
-              <Title level={5} className={styles.emailLabel}>
-                {data?.email}
-              </Title>
-            )}
-          </Form.Item>
-          <Form.Item
-            name="userName"
-            label="姓名"
-            rules={[
-              {
-                required: true,
-                message: "請填寫姓名。",
-              },
-            ]}
-          >
-            <Input placeholder="請輸入姓名" />
-          </Form.Item>
-          {isCreate && (
-            <>
-              <Form.Item
-                name="password"
-                label="密碼"
-                rules={[
-                  {
-                    required: true,
-                    message: "請填寫密碼。",
-                  },
-                ]}
-              >
-                <Input.Password placeholder="請輸入密碼" />
-              </Form.Item>
-              <Form.Item
-                name="confirmPassword"
-                label="再次輸入密碼"
-                dependencies={["password"]}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "請再次輸入密碼",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(new Error("兩次輸入的密碼不一致"));
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password placeholder="請再次輸入密碼" />
-              </Form.Item>
-            </>
-          )}
-          <Form.Item name="roleNames" label="指派角色">
-            <Select mode="multiple" placeholder="請選擇角色" options={roleOptions} loading={isRoleListLoading} />
-          </Form.Item>
-          <Form.Item label="">
-            <Row gutter={[8, 8]}>
-              <Col xs={24} sm={12} md={4}>
-                <Button block type="primary" htmlType="submit" loading={isSaving}>
-                  儲存
-                </Button>
-              </Col>
-              <Col xs={24} sm={12} md={4}>
-                <Button
-                  block
-                  onClick={() => {
-                    navigate(-1);
-                  }}
+                    }),
+                  ]}
                 >
-                  回上頁
-                </Button>
-              </Col>
-            </Row>
-          </Form.Item>
-        </Form>
+                  <Input.Password placeholder="請再次輸入密碼" />
+                </Form.Item>
+              </>
+            )}
+            <Form.Item name="roleNames" label="指派角色">
+              <Select mode="multiple" placeholder="請選擇角色" options={roleOptions} loading={isRoleListLoading} />
+            </Form.Item>
+            <Form.Item label="">
+              <Row gutter={[8, 8]}>
+                <Col xs={24} sm={12} md={4}>
+                  <Button block type="primary" htmlType="submit" loading={isSaving}>
+                    儲存
+                  </Button>
+                </Col>
+                <Col xs={24} sm={12} md={4}>
+                  <Button
+                    block
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                  >
+                    回上頁
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
-    </div>
+    </Content>
   );
 };
 

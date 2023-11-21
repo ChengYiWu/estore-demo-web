@@ -21,37 +21,39 @@ const AdminLayoutBreadcrumb = () => {
   const breadcrumbItems = useMemo(() => {
     const { sitemap, parents = [] } = sitemapUtil.getMatchSitemapAndParents(location.pathname) || {};
 
-    return [
-      {
-        title: (
-          <Link to="/">
-            <HomeOutlined />
-          </Link>
-        ),
-      },
-      ...parents.map((parentSitemap) => {
-        const link = parentSitemap.route?.path;
+    return sitemap?.ignoreBreadcrumb
+      ? []
+      : [
+          {
+            title: (
+              <Link to="/">
+                <HomeOutlined />
+              </Link>
+            ),
+          },
+          ...parents.map((parentSitemap) => {
+            const link = parentSitemap.route?.path;
 
-        let title = (
-          <>
-            {parentSitemap.icon}
-            <span className={cx({ [styles.linkLabel]: !!link })}>{parentSitemap.label}</span>
-          </>
-        );
+            let title = (
+              <>
+                {parentSitemap.icon}
+                <span className={cx({ [styles.linkLabel]: !!link })}>{parentSitemap.label}</span>
+              </>
+            );
 
-        if (link) {
-          title = <Link to={link}>{title}</Link>;
-        }
+            if (link) {
+              title = <Link to={link}>{title}</Link>;
+            }
 
-        return {
-          title,
-        };
-      }),
-      ...(sitemap ? [{ title: sitemap.label }] : []),
-    ];
+            return {
+              title,
+            };
+          }),
+          ...(sitemap ? [{ title: sitemap.label }] : []),
+        ];
   }, [location.pathname, styles]);
 
-  return <Breadcrumb items={breadcrumbItems} className={styles.root} />;
+  return breadcrumbItems.length > 0 ? <Breadcrumb items={breadcrumbItems} className={styles.root} /> : null;
 };
 
 export default AdminLayoutBreadcrumb;

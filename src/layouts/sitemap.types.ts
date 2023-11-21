@@ -7,6 +7,7 @@ type Sitemap = {
   route?: Route;
   showInMenu: boolean;
   children?: Sitemap[];
+  ignoreBreadcrumb?: boolean;
 };
 
 type RouteSitemap = Sitemap & {

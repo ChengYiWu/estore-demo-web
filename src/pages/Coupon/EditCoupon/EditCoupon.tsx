@@ -10,6 +10,7 @@ import dayjs, { Dayjs } from "dayjs";
 import useProductList from "@hooks/useProductList";
 import { camelCase } from "lodash";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import Content from "@components/Content";
 
 type CouponFormValues = {
   title: string;
@@ -122,119 +123,132 @@ const EditCoupon = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <AlertIfError isError={isError} description={error?.message} />
-      <AlertIfError isError={isSaveError} description={saveError?.message} />
-      <AlertIfError isError={isProductListError} description={productListError?.message} />
-      <Form {...formLayout} form={form} onFinish={handleFisih} colon={false}>
-        <Form.Item
-          name="title"
-          label="優惠券名稱"
-          rules={[
-            { required: true, message: "請輸入優惠券名稱" },
-            {
-              max: 128,
-              message: "優惠券名稱最多128個字",
-            },
-          ]}
-        >
-          <Input placeholder="請輸入優惠券名稱" />
-        </Form.Item>
-        <Form.Item
-          name="code"
-          label="領取代碼"
-          rules={[
-            { required: true, message: "請輸入領取代碼" },
-            {
-              max: 64,
-              message: "優惠券名稱最多64個字",
-            },
-          ]}
-        >
-          <Input placeholder="請輸入領取代碼" />
-        </Form.Item>
-        <Form.Item
-          name="description"
-          label="描述"
-          rules={[
-            { required: true, message: "請輸入描述" },
-            {
-              max: 1024,
-              message: "優惠券名稱最多1024個字",
-            },
-          ]}
-        >
-          <Input.TextArea placeholder="請輸入描述" />
-        </Form.Item>
-        <Form.Item
-          label="優惠券類型"
-          extra={
-            <span className={styles.typeExtra}>
-              <ExclamationCircleOutlined />
-              &nbsp;
-              <span>不可修改優惠券類型</span>
-            </span>
-          }
-        >
-          <Space.Compact block>
-            <Form.Item name="type" rules={[{ required: true, message: "請選擇類型" }]} noStyle>
-              <Select
-                className={styles.typeSelect}
-                options={TypeOptions}
-                disabled={!isCreate}
-                placeholder="請選擇優惠券類型"
-              />
-            </Form.Item>
-            <Form.Item
-              name="priceDiscount"
-              dependencies={["type"]}
-              noStyle
-              rules={[
-                ({ getFieldValue }) => ({
-                  required: true,
-                  message: `請輸入${getFieldValue("type") ? CouponSystemCodes[getFieldValue("type")].label : "折扣值"}`,
-                }),
-              ]}
-            >
-              <InputNumber
-                className={styles.numberInput}
-                placeholder={`請輸入${currentTypeInfo.label}`}
-                min={1}
-                addonAfter={currentTypeInfo.unit}
-              />
-            </Form.Item>
-          </Space.Compact>
-        </Form.Item>
-        <Form.Item name="applicableProductIds" label="可用商品">
-          <Select mode="multiple" options={productOptions} loading={productListLoading} placeholder="請選擇可用商品" />
-        </Form.Item>
-        <Form.Item name="startRange" label="可用期限">
-          <DatePicker.RangePicker showTime={{ format: "HH:mm" }} format="YYYY-MM-DD HH:mm" allowEmpty={[true, true]} />
-        </Form.Item>
-        <Form.Item name="isActive" label="是否啟用" valuePropName="checked">
-          <Switch checkedChildren="啟用" unCheckedChildren="停用" />
-        </Form.Item>
-        <Form.Item {...btnLayout}>
-          <Row gutter={[8, 8]}>
-            <Col xs={24} sm={12} lg={6}>
-              <Button block type="primary" htmlType="submit" loading={isSaving}>
-                儲存
-              </Button>
-            </Col>
-            <Col xs={24} sm={12} lg={6}>
-              <Button
-                block
-                onClick={() => {
-                  navigate(-1);
-                }}
+    <Content>
+      <div className={styles.root}>
+        <AlertIfError isError={isError} description={error?.message} />
+        <AlertIfError isError={isSaveError} description={saveError?.message} />
+        <AlertIfError isError={isProductListError} description={productListError?.message} />
+        <Form {...formLayout} form={form} onFinish={handleFisih} colon={false}>
+          <Form.Item
+            name="title"
+            label="優惠券名稱"
+            rules={[
+              { required: true, message: "請輸入優惠券名稱" },
+              {
+                max: 128,
+                message: "優惠券名稱最多128個字",
+              },
+            ]}
+          >
+            <Input placeholder="請輸入優惠券名稱" />
+          </Form.Item>
+          <Form.Item
+            name="code"
+            label="領取代碼"
+            rules={[
+              { required: true, message: "請輸入領取代碼" },
+              {
+                max: 64,
+                message: "優惠券名稱最多64個字",
+              },
+            ]}
+          >
+            <Input placeholder="請輸入領取代碼" />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="描述"
+            rules={[
+              { required: true, message: "請輸入描述" },
+              {
+                max: 1024,
+                message: "優惠券名稱最多1024個字",
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="請輸入描述" />
+          </Form.Item>
+          <Form.Item
+            label="優惠券類型"
+            extra={
+              <span className={styles.typeExtra}>
+                <ExclamationCircleOutlined />
+                &nbsp;
+                <span>不可修改優惠券類型</span>
+              </span>
+            }
+          >
+            <Space.Compact block>
+              <Form.Item name="type" rules={[{ required: true, message: "請選擇類型" }]} noStyle>
+                <Select
+                  className={styles.typeSelect}
+                  options={TypeOptions}
+                  disabled={!isCreate}
+                  placeholder="請選擇優惠券類型"
+                />
+              </Form.Item>
+              <Form.Item
+                name="priceDiscount"
+                dependencies={["type"]}
+                noStyle
+                rules={[
+                  ({ getFieldValue }) => ({
+                    required: true,
+                    message: `請輸入${
+                      getFieldValue("type") ? CouponSystemCodes[getFieldValue("type")].label : "折扣值"
+                    }`,
+                  }),
+                ]}
               >
-                回上頁
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
-      </Form>
-    </div>
+                <InputNumber
+                  className={styles.numberInput}
+                  placeholder={`請輸入${currentTypeInfo.label}`}
+                  min={1}
+                  addonAfter={currentTypeInfo.unit}
+                />
+              </Form.Item>
+            </Space.Compact>
+          </Form.Item>
+          <Form.Item name="applicableProductIds" label="可用商品">
+            <Select
+              mode="multiple"
+              options={productOptions}
+              loading={productListLoading}
+              placeholder="請選擇可用商品"
+            />
+          </Form.Item>
+          <Form.Item name="startRange" label="可用期限">
+            <DatePicker.RangePicker
+              showTime={{ format: "HH:mm" }}
+              format="YYYY-MM-DD HH:mm"
+              allowEmpty={[true, true]}
+            />
+          </Form.Item>
+          <Form.Item name="isActive" label="是否啟用" valuePropName="checked">
+            <Switch checkedChildren="啟用" unCheckedChildren="停用" />
+          </Form.Item>
+          <Form.Item {...btnLayout}>
+            <Row gutter={[8, 8]}>
+              <Col xs={24} sm={12} lg={6}>
+                <Button block type="primary" htmlType="submit" loading={isSaving}>
+                  儲存
+                </Button>
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <Button
+                  block
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  回上頁
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
+        </Form>
+      </div>
+    </Content>
   );
 };
 
