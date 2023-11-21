@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { Button, Form, Input, Space, Table, Tag } from "antd";
-import { Link, useNavigate } from "react-router-dom";
 import useUsers from "./useUsers";
 import AlertIfError from "@components/AlertIfError";
-import { Routes } from "@/layouts/routes";
-import routeUtil from "@utils/route.util";
 import { getUsersResponse } from "@/apis/user.api.types";
 import type { ColumnsType } from "antd/es/table";
-import EditIcon from "@/components/TableEditIcon";
-import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 import PaginationQuery from "@/types/commons/PaginationQuery";
 import SearchKeywordInputExtraIcon from "@components/SearchKeywordInputExtraIcon";
@@ -72,7 +68,6 @@ const initFormValue = {
 
 const AllUsers = () => {
   const { styles } = useStyle();
-  const navigate = useNavigate();
   const [query, setQuery] = useState<QueryValues>({
     ...initFormValue,
     ...initPagination,
