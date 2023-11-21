@@ -19,16 +19,17 @@ import { Routes } from "@/layouts/routes";
 import { useNavigate } from "react-router-dom";
 import ViewOrder from "../ViewOrder";
 import Content from "@components/Content";
+import { Dayjs } from "dayjs";
 
 const { useBreakpoint } = Grid;
 
 type FormValues = {
   search: string | null;
   status?: string | null;
-  placedAtRange?: [string | null, string | null] | null;
+  placedAtRange?: [Dayjs | null, Dayjs | null] | null;
 };
 
-type QueryValues = FormValues & PaginationQuery;
+type QueryValues = FormValues & PaginationQuery & { startAt?: string | null; endAt?: string | null };
 
 const useStyle = createStyles(() => ({
   searchWrapper: {
@@ -176,6 +177,9 @@ const AllOrders = () => {
   const handleFinish = (formValues: FormValues) => {
     setQuery({
       ...formValues,
+      placedAtRange: null,
+      startAt: formValues.placedAtRange?.[0]?.format("YYYY-MM-DD HH:mm") || undefined,
+      endAt: formValues.placedAtRange?.[1]?.format("YYYY-MM-DD HH:mm") || undefined,
       ...initPagination,
     });
   };
@@ -206,7 +210,7 @@ const AllOrders = () => {
             />
           </Form.Item>
           <Form.Item name="status" noStyle>
-            <Select options={OrderStatusOptions} placeholder="訂單狀態" className={styles.statusQuerySelect} />
+            <Select options={OrderStatusOptions} placeholder="訂單狀態" className={styles.statusQuerySelect} allowClear/>
           </Form.Item>
           <Form.Item name="placedAtRange" noStyle>
             <DatePicker.RangePicker
