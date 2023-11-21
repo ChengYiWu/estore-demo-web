@@ -1,4 +1,4 @@
-import { Avatar, Card, List, Space, Tooltip } from "antd";
+import { Avatar, Card, List, Space } from "antd";
 import User1Img from "@/assets/user1.png";
 import User2Img from "@/assets/user2.png";
 import User3Img from "@/assets/user3.png";
