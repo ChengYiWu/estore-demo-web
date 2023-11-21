@@ -12,6 +12,7 @@ import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 import PaginationQuery from "@/types/commons/PaginationQuery";
 import SearchKeywordInputExtraIcon from "@components/SearchKeywordInputExtraIcon";
+import Content from "@components/Content";
 
 type FormValues = {
   search: string | null;
@@ -87,7 +88,7 @@ const AllUsers = () => {
   };
 
   return (
-    <div>
+    <Content>
       <AlertIfError isError={isError} description={error?.message} />
       <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
         <Space>
@@ -140,7 +141,7 @@ const AllUsers = () => {
           },
         }}
       />
-    </div>
+    </Content>
   );
 };
 

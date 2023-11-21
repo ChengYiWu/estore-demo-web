@@ -8,7 +8,7 @@ import { flattenRoutes } from "./routes";
 
 const SuspenseFallback = (Component: React.ComponentType) => {
   return (
-    <Suspense fallback={<>Loading ...</>}>
+    <Suspense fallback={<div style={{ margin: "1rem" }}>Loading ...</div>}>
       <Component />
     </Suspense>
   );

@@ -10,6 +10,7 @@ import { DeleteOutlined, InfoCircleOutlined, PlusCircleOutlined } from "@ant-des
 import Uploader from "@/components/Uploader";
 import { FileType } from "@/components/Uploader/Uploader";
 import fileUtil from "@/utils/file.util";
+import Content from "@components/Content";
 
 type ProductItemFormValues = {
   name: string;
@@ -131,208 +132,210 @@ const EditProduct = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <AlertIfError isError={isError} description={error?.message} />
-      <AlertIfError isError={isSaveError} description={saveError?.message} />
-      <div>
-        <Form
-          form={form}
-          onFinish={handleFisih}
-          colon={false}
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 18 }}
-          initialValues={{
-            images: [],
-            productItems: [],
-          }}
-        >
-          <Form.Item
-            name="name"
-            label="商品名稱"
-            rules={[
-              {
-                required: true,
-                message: "請輸入商品名稱",
-              },
-              {
-                max: 128,
-                message: "商品名稱最多128個字",
-              },
-            ]}
+    <Content>
+      <div className={styles.root}>
+        <AlertIfError isError={isError} description={error?.message} />
+        <AlertIfError isError={isSaveError} description={saveError?.message} />
+        <div>
+          <Form
+            form={form}
+            onFinish={handleFisih}
+            colon={false}
+            labelCol={{ span: 3 }}
+            wrapperCol={{ span: 18 }}
+            initialValues={{
+              images: [],
+              productItems: [],
+            }}
           >
-            <Input placeholder="請輸入商品名稱" />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="商品描述"
-            rules={[
-              {
-                required: true,
-                message: "請輸入商品描述",
-              },
-            ]}
-          >
-            <Input.TextArea placeholder="請輸入商品描述" />
-          </Form.Item>
-          <Form.Item name="brand" label="商品品牌">
-            <Input placeholder="請輸入商品品牌" />
-          </Form.Item>
-          <Form.Item name="weight" label="商品重量">
-            <Input placeholder="請輸入商品重量" />
-          </Form.Item>
-          <Form.Item name="dimensions" label="商品尺寸">
-            <Input placeholder="請輸入商品尺寸" />
-          </Form.Item>
-          <Form.Item
-            name="images"
-            label="商品圖片"
-            rules={[
-              {
-                required: true,
-                validator(_, files) {
-                  if (files && files.length <= 0) {
-                    return Promise.reject("請上傳至少 1 張圖片");
-                  }
-                  return Promise.resolve();
+            <Form.Item
+              name="name"
+              label="商品名稱"
+              rules={[
+                {
+                  required: true,
+                  message: "請輸入商品名稱",
                 },
-              },
-            ]}
-          >
-            <Uploader
-              uploadBtnText="上傳商品圖片"
-              action="/products/upload"
-              max={5}
-              allowedFileTypes={[FileType.JPEG, FileType.JPG, FileType.PNG]}
-            />
-          </Form.Item>
-          <Form.List
-            name="productItems"
-            rules={[
-              {
-                validator(_, items) {
-                  if (items && items.length <= 0) {
-                    return Promise.reject("請新增至少 1 個品項");
-                  }
-                  return Promise.resolve();
+                {
+                  max: 128,
+                  message: "商品名稱最多128個字",
                 },
-              },
-            ]}
-          >
-            {(fields, { add, remove }, { errors }) => (
-              <Form.Item label="品項" required>
-                <Divider rootClassName={styles.itemCountDivider}>
-                  共<span className="itemCount">{fields.length}</span>
-                  個品項（
-                  <span className="maxCountNotice">
-                    <InfoCircleOutlined />
-                    <span className="maxCount">最多 {MaxItemCount} 個品項</span>
-                  </span>
-                  ）
-                </Divider>
-                {fields.map(({ key, name, ...rest }) => (
-                  <Fragment key={key}>
-                    <Flex style={{ padding: "2rem", background: "#efefef", borderRadius: "8px" }}>
-                      <div style={{ flex: 0, flexBasis: "3rem" }}>
-                        <Button
-                          icon={<DeleteOutlined />}
-                          danger
-                          size="small"
-                          onClick={() => {
-                            remove(name);
-                          }}
-                          style={{ marginTop: "0.25rem" }}
-                        />
-                      </div>
-                      <div key={key} style={{ flex: 1 }}>
-                        <Form.Item
-                          {...rest}
-                          {...itemLayout}
-                          name={[name, "name"]}
-                          label="品項名稱"
-                          rules={[{ required: true, message: "請填寫品項名稱" }]}
-                        >
-                          <Input placeholder="請填寫品項名稱" />
-                        </Form.Item>
-                        <Form.Item
-                          {...rest}
-                          {...itemLayout}
-                          name={[name, "price"]}
-                          label="品項價格"
-                          rules={[{ required: true, message: "請填寫品項價格" }]}
-                        >
-                          <InputNumber placeholder="請填寫品項價格" min={1} precision={0} style={{ width: "100%" }} />
-                        </Form.Item>
-                        <Form.Item
-                          {...rest}
-                          {...itemLayout}
-                          name={[name, "stockQuantity"]}
-                          label="品項庫存"
-                          rules={[{ required: true, message: "請填寫品項庫存" }]}
-                        >
-                          <InputNumber placeholder="請填寫庫存" min={0} precision={0} style={{ width: "100%" }} />
-                        </Form.Item>
-                        <Form.Item
-                          {...rest}
-                          {...itemLayout}
-                          name={[name, "isActive"]}
-                          label="是否上架"
-                          valuePropName="checked"
-                        >
-                          <Switch checkedChildren="上架" unCheckedChildren="下架" />
-                        </Form.Item>
-                        <Form.Item {...rest} {...itemLayout} name={[name, "images"]} label="品項圖片">
-                          <Uploader
-                            uploadBtnText="上傳品項圖片"
-                            action="/products/upload"
-                            max={1}
-                            allowedFileTypes={[FileType.JPEG, FileType.JPG, FileType.PNG]}
+              ]}
+            >
+              <Input placeholder="請輸入商品名稱" />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              label="商品描述"
+              rules={[
+                {
+                  required: true,
+                  message: "請輸入商品描述",
+                },
+              ]}
+            >
+              <Input.TextArea placeholder="請輸入商品描述" />
+            </Form.Item>
+            <Form.Item name="brand" label="商品品牌">
+              <Input placeholder="請輸入商品品牌" />
+            </Form.Item>
+            <Form.Item name="weight" label="商品重量">
+              <Input placeholder="請輸入商品重量" />
+            </Form.Item>
+            <Form.Item name="dimensions" label="商品尺寸">
+              <Input placeholder="請輸入商品尺寸" />
+            </Form.Item>
+            <Form.Item
+              name="images"
+              label="商品圖片"
+              rules={[
+                {
+                  required: true,
+                  validator(_, files) {
+                    if (files && files.length <= 0) {
+                      return Promise.reject("請上傳至少 1 張圖片");
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              <Uploader
+                uploadBtnText="上傳商品圖片"
+                action="/products/upload"
+                max={5}
+                allowedFileTypes={[FileType.JPEG, FileType.JPG, FileType.PNG]}
+              />
+            </Form.Item>
+            <Form.List
+              name="productItems"
+              rules={[
+                {
+                  validator(_, items) {
+                    if (items && items.length <= 0) {
+                      return Promise.reject("請新增至少 1 個品項");
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <Form.Item label="品項" required>
+                  <Divider rootClassName={styles.itemCountDivider}>
+                    共<span className="itemCount">{fields.length}</span>
+                    個品項（
+                    <span className="maxCountNotice">
+                      <InfoCircleOutlined />
+                      <span className="maxCount">最多 {MaxItemCount} 個品項</span>
+                    </span>
+                    ）
+                  </Divider>
+                  {fields.map(({ key, name, ...rest }) => (
+                    <Fragment key={key}>
+                      <Flex style={{ padding: "2rem", background: "#efefef", borderRadius: "8px" }}>
+                        <div style={{ flex: 0, flexBasis: "3rem" }}>
+                          <Button
+                            icon={<DeleteOutlined />}
+                            danger
+                            size="small"
+                            onClick={() => {
+                              remove(name);
+                            }}
+                            style={{ marginTop: "0.25rem" }}
                           />
-                        </Form.Item>
-                      </div>
-                    </Flex>
-                    {fields.length > 0 && <Divider />}
-                  </Fragment>
-                ))}
-                {fields.length < MaxItemCount && (
-                  <Form.Item>
-                    <Button
-                      icon={<PlusCircleOutlined />}
-                      onClick={() =>
-                        add({
-                          isActive: false,
-                        })
-                      }
-                    >
-                      新增品項
-                    </Button>
-                  </Form.Item>
-                )}
-                <Form.ErrorList errors={errors} />
-              </Form.Item>
-            )}
-          </Form.List>
-          <Form.Item {...itemLayout} label=" ">
-            <Row gutter={[8, 8]}>
-              <Col xs={24} sm={12} md={4}>
-                <Button block type="primary" htmlType="submit" loading={isSaving}>
-                  儲存
-                </Button>
-              </Col>
-              <Col xs={24} sm={12} md={4}>
-                <Button
-                  block
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  回上頁
-                </Button>
-              </Col>
-            </Row>
-          </Form.Item>
-        </Form>
+                        </div>
+                        <div key={key} style={{ flex: 1 }}>
+                          <Form.Item
+                            {...rest}
+                            {...itemLayout}
+                            name={[name, "name"]}
+                            label="品項名稱"
+                            rules={[{ required: true, message: "請填寫品項名稱" }]}
+                          >
+                            <Input placeholder="請填寫品項名稱" />
+                          </Form.Item>
+                          <Form.Item
+                            {...rest}
+                            {...itemLayout}
+                            name={[name, "price"]}
+                            label="品項價格"
+                            rules={[{ required: true, message: "請填寫品項價格" }]}
+                          >
+                            <InputNumber placeholder="請填寫品項價格" min={1} precision={0} style={{ width: "100%" }} />
+                          </Form.Item>
+                          <Form.Item
+                            {...rest}
+                            {...itemLayout}
+                            name={[name, "stockQuantity"]}
+                            label="品項庫存"
+                            rules={[{ required: true, message: "請填寫品項庫存" }]}
+                          >
+                            <InputNumber placeholder="請填寫庫存" min={0} precision={0} style={{ width: "100%" }} />
+                          </Form.Item>
+                          <Form.Item
+                            {...rest}
+                            {...itemLayout}
+                            name={[name, "isActive"]}
+                            label="是否上架"
+                            valuePropName="checked"
+                          >
+                            <Switch checkedChildren="上架" unCheckedChildren="下架" />
+                          </Form.Item>
+                          <Form.Item {...rest} {...itemLayout} name={[name, "images"]} label="品項圖片">
+                            <Uploader
+                              uploadBtnText="上傳品項圖片"
+                              action="/products/upload"
+                              max={1}
+                              allowedFileTypes={[FileType.JPEG, FileType.JPG, FileType.PNG]}
+                            />
+                          </Form.Item>
+                        </div>
+                      </Flex>
+                      {fields.length > 0 && <Divider />}
+                    </Fragment>
+                  ))}
+                  {fields.length < MaxItemCount && (
+                    <Form.Item>
+                      <Button
+                        icon={<PlusCircleOutlined />}
+                        onClick={() =>
+                          add({
+                            isActive: false,
+                          })
+                        }
+                      >
+                        新增品項
+                      </Button>
+                    </Form.Item>
+                  )}
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              )}
+            </Form.List>
+            <Form.Item {...itemLayout} label=" ">
+              <Row gutter={[8, 8]}>
+                <Col xs={24} sm={12} md={4}>
+                  <Button block type="primary" htmlType="submit" loading={isSaving}>
+                    儲存
+                  </Button>
+                </Col>
+                <Col xs={24} sm={12} md={4}>
+                  <Button
+                    block
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                  >
+                    回上頁
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
-    </div>
+    </Content>
   );
 };
 
