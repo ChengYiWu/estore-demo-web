@@ -14,6 +14,14 @@ estoreApi.interceptors.request.use((config) => {
   return config;
 });
 
+const getErrorMessage = (error, defaultMessage) => {
+  if (error.response?.data) {
+    return error.response.data.message || error.response.data.detail || error.response.data.errors?.[0]?.message;
+  }
+
+  return defaultMessage;
+};
+
 // handle common errors
 estoreApi.interceptors.response.use(
   (response) => response,
@@ -34,14 +42,14 @@ estoreApi.interceptors.response.use(
       message.error("伺服器錯誤");
       return Promise.reject({
         ...error,
-        message: "伺服器錯誤",
+        message: getErrorMessage(error, "伺服器錯誤"),
       });
     }
 
     if (error.response?.data) {
       return Promise.reject({
         ...error.response.data,
-        message: error.response.data.detail || error.response.data.message || error.response.data.errors?.[0]?.message,
+        message: getErrorMessage(error, "伺服器錯誤"),
       });
     }
 
