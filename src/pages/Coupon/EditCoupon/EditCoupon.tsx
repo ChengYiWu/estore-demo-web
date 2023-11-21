@@ -177,6 +177,7 @@ const EditCoupon = () => {
                 <span>不可修改優惠券類型</span>
               </span>
             }
+            required
           >
             <Space.Compact block>
               <Form.Item name="type" rules={[{ required: true, message: "請選擇類型" }]} noStyle>
