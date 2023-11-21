@@ -105,6 +105,7 @@ const EditCoupon = () => {
   const handleFisih = (values: CouponFormValues) => {
     const coupon = {
       ...values,
+      isActive: values.isActive || false,
       startedAt: values?.startRange?.[0]?.format("YYYY-MM-DD HH:mm") || null,
       expiredAt: values?.startRange?.[1]?.format("YYYY-MM-DD HH:mm") || null,
       [currentTypeInfo.value]: values.priceDiscount,
