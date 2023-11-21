@@ -66,11 +66,14 @@ const AllProducts = () => {
         align: "center",
         width: "4rem",
         fixed: "left",
-        render: (_: string, record) => (
-          <Link to={`${routeUtil.getRoutePath(Routes.EditProduct, { id: record.id })}`}>
-            <EditIcon />
-          </Link>
-        ),
+        render: (_: string, record) =>
+          record.isEditable ? (
+            <Link to={`${routeUtil.getRoutePath(Routes.EditProduct, { id: record.id })}`}>
+              <EditIcon />
+            </Link>
+          ) : (
+            <TableEmptyColumn />
+          ),
       },
       {
         key: "delete",
@@ -79,21 +82,24 @@ const AllProducts = () => {
         align: "center",
         width: "4rem",
         fixed: "left",
-        render: (_: string, { id, name }) => (
-          <Button
-            type="link"
-            onClick={() => {
-              antdUtils.modal?.confirm({
-                title: "確認刪除",
-                content: `確定要刪除「${name}」商品嗎？`,
-                onOk: () => {
-                  deleteProduct(id.toString());
-                },
-              });
-            }}
-            icon={<TableDeleteIcon />}
-          />
-        ),
+        render: (_: string, { id, name, isEditable }) =>
+          isEditable ? (
+            <Button
+              type="link"
+              onClick={() => {
+                antdUtils.modal?.confirm({
+                  title: "確認刪除",
+                  content: `確定要刪除「${name}」商品嗎？`,
+                  onOk: () => {
+                    deleteProduct(id.toString());
+                  },
+                });
+              }}
+              icon={<TableDeleteIcon />}
+            />
+          ) : (
+            <TableEmptyColumn />
+          ),
       },
       {
         key: "images",

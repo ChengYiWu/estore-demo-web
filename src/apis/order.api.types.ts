@@ -14,6 +14,7 @@ interface OrderResponse {
   cancelledUserName: string;
   cancelledAt: string;
   cancelledReason: string;
+  isEditable: boolean;
   orderItems: OrderItem[];
 }
 

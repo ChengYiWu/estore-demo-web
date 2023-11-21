@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { Button, Form, Input, Space, Table, Tag } from "antd";
-import { Link, useNavigate } from "react-router-dom";
 import useUsers from "./useUsers";
 import AlertIfError from "@components/AlertIfError";
-import { Routes } from "@/layouts/routes";
-import routeUtil from "@utils/route.util";
 import { getUsersResponse } from "@/apis/user.api.types";
 import type { ColumnsType } from "antd/es/table";
-import EditIcon from "@/components/TableEditIcon";
-import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 import PaginationQuery from "@/types/commons/PaginationQuery";
 import SearchKeywordInputExtraIcon from "@components/SearchKeywordInputExtraIcon";
@@ -27,19 +23,20 @@ const useStyle = createStyles(() => ({
 }));
 
 const Columns: ColumnsType<getUsersResponse["items"][number]> = [
-  {
-    key: "edit",
-    title: "編輯",
-    dataIndex: "edit",
-    align: "center",
-    width: "4rem",
-    fixed: "left",
-    render: (_: string, record) => (
-      <Link to={`${routeUtil.getRoutePath(Routes.EditUser, { id: record.id })}`}>
-        <EditIcon />
-      </Link>
-    ),
-  },
+  // 不允許編輯
+  // {
+  //   key: "edit",
+  //   title: "編輯",
+  //   dataIndex: "edit",
+  //   align: "center",
+  //   width: "4rem",
+  //   fixed: "left",
+  //   render: (_: string, record) => (
+  //     <Link to={`${routeUtil.getRoutePath(Routes.EditUser, { id: record.id })}`}>
+  //       <EditIcon />
+  //     </Link>
+  //   ),
+  // },
   {
     key: "email",
     title: "電子信箱",
@@ -71,7 +68,6 @@ const initFormValue = {
 
 const AllUsers = () => {
   const { styles } = useStyle();
-  const navigate = useNavigate();
   const [query, setQuery] = useState<QueryValues>({
     ...initFormValue,
     ...initPagination,
@@ -111,7 +107,8 @@ const AllUsers = () => {
           >
             清除
           </Button>
-          <Button
+          {/* 不允許新增 */}
+          {/* <Button
             type="primary"
             onClick={() => {
               navigate(routeUtil.getRoutePath(Routes.CreateUser));
@@ -119,7 +116,7 @@ const AllUsers = () => {
             icon={<PlusOutlined />}
           >
             新增使用者
-          </Button>
+          </Button> */}
         </Space>
       </Form>
       <Table
