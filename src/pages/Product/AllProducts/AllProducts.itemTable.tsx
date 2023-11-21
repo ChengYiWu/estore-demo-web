@@ -2,7 +2,7 @@ import { GetProductsResponse } from "@/apis/product.api.types";
 import TableEmptyColumn from "@/components/TableEmptyColumn";
 import TableOverflowColumn from "@/components/TableOverflowColumn";
 import TablePriceColumn from "@/components/TablePriceColumn";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { Table, Tooltip, Image } from "antd";
 import { ColumnsType } from "antd/es/table";
 
@@ -61,32 +61,39 @@ const Columns: ColumnsType<GetProductsResponse["items"][number]["productItems"][
   },
   {
     key: "placedOrderCount",
-    title: "下訂",
+    title: "下訂中",
     align: "right",
     dataIndex: "placedOrderCount",
-    width: "4rem",
+    width: "5rem",
     render: (_, { placedOrderCount }) => {
       return <TablePriceColumn value={placedOrderCount} />;
     },
   },
   {
     key: "cancelledOrderCount",
-    title: "取消",
+    title: (
+      <span>
+        已取消
+        <Tooltip title="已取消商品並不會自動回加至庫存。">
+          <InfoCircleOutlined style={{ marginLeft: "0.25rem" }} />
+        </Tooltip>
+      </span>
+    ),
     align: "right",
     dataIndex: "cancelledOrderCount",
-    width: "4rem",
+    width: "6rem",
     render: (_, { cancelledOrderCount }) => {
       return <TablePriceColumn value={cancelledOrderCount} />;
     },
   },
   {
     key: "shippedOrderCount",
-    title: "出貨",
+    title: "已出貨",
     align: "right",
     dataIndex: "shippedOrderCount",
-    width: "4rem",
-    render: (_, { cancelledOrderCount }) => {
-      return <TablePriceColumn value={cancelledOrderCount} />;
+    width: "5rem",
+    render: (_, { shippedOrderCount }) => {
+      return <TablePriceColumn value={shippedOrderCount} />;
     },
   },
   {

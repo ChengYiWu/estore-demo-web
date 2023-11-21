@@ -21,6 +21,7 @@ import dayjs from "dayjs";
 
 import type { ColumnsType } from "antd/es/table";
 import type PaginationQuery from "@/types/commons/PaginationQuery";
+import Content from "@components/Content";
 
 type FormValues = {
   search: string | null;
@@ -203,7 +204,7 @@ const AllCoupons = () => {
   };
 
   return (
-    <div>
+    <Content>
       <AlertIfError isError={isError} description={error?.message} />
       <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
         <Space>
@@ -260,7 +261,7 @@ const AllCoupons = () => {
           },
         }}
       />
-    </div>
+    </Content>
   );
 };
 

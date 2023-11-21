@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { antdUtils } from "@utils/antd.util";
 import { isNil } from "lodash";
 import { AuthUser } from "@/apis/auth.api.types";
+import router from "@utils/router.util";
 
 type State = {
   token: string | null;
@@ -37,7 +38,7 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
       localStorage.setItem("user", JSON.stringify(data.user));
       set({ token: data.token, user: data.user, isAuth: data.token !== null });
     } catch (e) {
-      antdUtils.message?.error((e as AxiosError<ErrorResponse>).response?.data.detail || "登入失敗");
+      antdUtils.message?.error((e as AxiosError<ErrorResponse>)?.message || "登入失敗");
     } finally {
       set({ loginProcessing: false });
     }
@@ -48,6 +49,8 @@ const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
     set(initState);
 
     onSuccess && onSuccess();
+
+    router.navigate("/login");
   },
 });
 

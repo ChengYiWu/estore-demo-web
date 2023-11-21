@@ -18,6 +18,7 @@ import TableEmptyColumn from "@/components/TableEmptyColumn";
 import { antdUtils } from "@/utils/antd.util";
 import useDeleteProduct from "./useDeleteProduct";
 import TableDeleteIcon from "@/components/TableDeleteIcon";
+import Content from "@components/Content";
 
 type FormValues = {
   search: string | null;
@@ -177,63 +178,61 @@ const AllProducts = () => {
   };
 
   return (
-    <div>
-      <div>
-        <AlertIfError isError={isError} description={error?.message} />
-        <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
-          <Space>
-            <Form.Item name="search" noStyle>
-              <Input placeholder="請輸入關鍵字" suffix={<SearchKeywordInputExtraIcon filterColumns={["商品名稱"]} />} />
-            </Form.Item>
-            <Button htmlType="submit" icon={<SearchOutlined />}>
-              搜尋
-            </Button>
-            <Button
-              danger
-              icon={<CloseOutlined />}
-              onClick={() => {
-                form.resetFields();
-                setQuery({ ...initPagination, ...form.getFieldsValue() });
-              }}
-            >
-              清除
-            </Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                navigate(routeUtil.getRoutePath(Routes.CreateProduct));
-              }}
-              icon={<PlusOutlined />}
-            >
-              新增商品
-            </Button>
-          </Space>
-        </Form>
-        <Table
-          rowKey="id"
-          columns={columns}
-          loading={isLoading}
-          dataSource={data?.items}
-          scroll={{ x: "80rem" }}
-          expandable={{
-            expandedRowRender: (record) => <AllProductsItemTable record={record} />,
-            rowExpandable: (record) => record?.productItems?.length > 0,
-          }}
-          pagination={{
-            current: query.pageNumber,
-            pageSize: query.pageSize,
-            total: data?.totalCount,
-            onChange: (pageNumber, pageSize) => {
-              setQuery((preQuery) => ({
-                ...preQuery,
-                pageNumber,
-                pageSize,
-              }));
-            },
-          }}
-        />
-      </div>
-    </div>
+    <Content>
+      <AlertIfError isError={isError} description={error?.message} />
+      <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
+        <Space>
+          <Form.Item name="search" noStyle>
+            <Input placeholder="請輸入關鍵字" suffix={<SearchKeywordInputExtraIcon filterColumns={["商品名稱"]} />} />
+          </Form.Item>
+          <Button htmlType="submit" icon={<SearchOutlined />}>
+            搜尋
+          </Button>
+          <Button
+            danger
+            icon={<CloseOutlined />}
+            onClick={() => {
+              form.resetFields();
+              setQuery({ ...initPagination, ...form.getFieldsValue() });
+            }}
+          >
+            清除
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate(routeUtil.getRoutePath(Routes.CreateProduct));
+            }}
+            icon={<PlusOutlined />}
+          >
+            新增商品
+          </Button>
+        </Space>
+      </Form>
+      <Table
+        rowKey="id"
+        columns={columns}
+        loading={isLoading}
+        dataSource={data?.items}
+        scroll={{ x: "80rem" }}
+        expandable={{
+          expandedRowRender: (record) => <AllProductsItemTable record={record} />,
+          rowExpandable: (record) => record?.productItems?.length > 0,
+        }}
+        pagination={{
+          current: query.pageNumber,
+          pageSize: query.pageSize,
+          total: data?.totalCount,
+          onChange: (pageNumber, pageSize) => {
+            setQuery((preQuery) => ({
+              ...preQuery,
+              pageNumber,
+              pageSize,
+            }));
+          },
+        }}
+      />
+    </Content>
   );
 };
 

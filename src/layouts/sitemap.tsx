@@ -19,6 +19,7 @@ const SitemapList: Sitemap[] = [
     icon: <BarChartOutlined />,
     route: Routes.DashboardSummary,
     showInMenu: true,
+    ignoreBreadcrumb: true,
   },
   {
     key: "UserModule",

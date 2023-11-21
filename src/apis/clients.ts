@@ -24,10 +24,18 @@ estoreApi.interceptors.response.use(
 
     if (error.response?.status === 403) {
       message.error("權限不足");
+      return Promise.reject({
+        ...error,
+        message: "權限不足",
+      });
     }
 
     if (error.response?.status === 500) {
       message.error("伺服器錯誤");
+      return Promise.reject({
+        ...error,
+        message: "伺服器錯誤",
+      });
     }
 
     if (error.response?.data) {
