@@ -27,19 +27,20 @@ const useStyle = createStyles(() => ({
 }));
 
 const Columns: ColumnsType<getUsersResponse["items"][number]> = [
-  {
-    key: "edit",
-    title: "編輯",
-    dataIndex: "edit",
-    align: "center",
-    width: "4rem",
-    fixed: "left",
-    render: (_: string, record) => (
-      <Link to={`${routeUtil.getRoutePath(Routes.EditUser, { id: record.id })}`}>
-        <EditIcon />
-      </Link>
-    ),
-  },
+  // 不允許編輯
+  // {
+  //   key: "edit",
+  //   title: "編輯",
+  //   dataIndex: "edit",
+  //   align: "center",
+  //   width: "4rem",
+  //   fixed: "left",
+  //   render: (_: string, record) => (
+  //     <Link to={`${routeUtil.getRoutePath(Routes.EditUser, { id: record.id })}`}>
+  //       <EditIcon />
+  //     </Link>
+  //   ),
+  // },
   {
     key: "email",
     title: "電子信箱",
@@ -111,7 +112,8 @@ const AllUsers = () => {
           >
             清除
           </Button>
-          <Button
+          {/* 不允許新增 */}
+          {/* <Button
             type="primary"
             onClick={() => {
               navigate(routeUtil.getRoutePath(Routes.CreateUser));
@@ -119,7 +121,7 @@ const AllUsers = () => {
             icon={<PlusOutlined />}
           >
             新增使用者
-          </Button>
+          </Button> */}
         </Space>
       </Form>
       <Table

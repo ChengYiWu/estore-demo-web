@@ -197,7 +197,7 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
         <Button key="close" onClick={onClose} loading={isChangeToCancelledPending || isChangeToShippedPending}>
           關閉
         </Button>,
-        ...(data?.status === OrderSystemCodes.Placed.value
+        ...(data?.status === OrderSystemCodes.Placed.value && data?.isEditable
           ? [
               <Button
                 key="changeToShipped"
@@ -209,7 +209,7 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
               </Button>,
             ]
           : []),
-        ...([OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "")
+        ...([OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "") && data?.isEditable
           ? [
               <Button
                 key="changeToCancelled"
