@@ -11,6 +11,7 @@ interface CouponResponse {
   createdUserName: string;
   priceAmountDiscount?: number;
   pricePercentDiscount?: number;
+  isEditable: boolean;
   usedOrderCount: number;
   applicableProducts: CouponApplicableProduct[];
 }

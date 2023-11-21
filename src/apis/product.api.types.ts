@@ -20,6 +20,7 @@ interface ProductResponse {
   brand?: string;
   weight?: string;
   dimensions?: string;
+  isEditable: boolean;
   createdUserName: string;
   images: ExistFile[];
   productItems: ProductItem[];

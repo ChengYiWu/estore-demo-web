@@ -70,11 +70,14 @@ const AllCoupons = () => {
         align: "center",
         width: "4rem",
         fixed: "left",
-        render: (_: string, record) => (
-          <Link to={`${routeUtil.getRoutePath(Routes.EditCoupon, { id: record.id })}`}>
-            <TableEditIcon />
-          </Link>
-        ),
+        render: (_: string, record) =>
+          record.isEditable ? (
+            <Link to={`${routeUtil.getRoutePath(Routes.EditCoupon, { id: record.id })}`}>
+              <TableEditIcon />
+            </Link>
+          ) : (
+            <TableEmptyColumn />
+          ),
       },
       {
         key: "delete",
@@ -83,8 +86,8 @@ const AllCoupons = () => {
         align: "center",
         width: "4rem",
         fixed: "left",
-        render: (_: string, { id, title, usedOrderCount }) =>
-          usedOrderCount <= 0 ? (
+        render: (_: string, { id, title, usedOrderCount, isEditable }) =>
+          usedOrderCount <= 0 && isEditable ? (
             <Button
               type="link"
               onClick={() => {
