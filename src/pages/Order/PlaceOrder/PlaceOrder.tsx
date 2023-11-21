@@ -169,6 +169,7 @@ const PlaceOrder = () => {
 
     const formValue = {
       ...values,
+      note: values.note || undefined,
       items: productItemModal.productItems.map((item) => ({
         productItemId: item.id,
         quantity: item.quantity,
@@ -271,7 +272,7 @@ const PlaceOrder = () => {
           >
             <Input placeholder="請輸入收件地址" />
           </Form.Item>
-          <Form.Item name="note" label="請輸入備註">
+          <Form.Item name="note" label="備註">
             <Input.TextArea placeholder="請輸入備註" />
           </Form.Item>
           <Form.Item
@@ -313,7 +314,7 @@ const PlaceOrder = () => {
               },
             ]}
           >
-            <Select options={couponListOptions} loading={isCouponListLoading} placeholder="請選擇優惠券" />
+            <Select options={couponListOptions} loading={isCouponListLoading} placeholder="請選擇優惠券" allowClear />
           </Form.Item>
           <Form.Item label="購買清單" required>
             <div>

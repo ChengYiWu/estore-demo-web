@@ -110,6 +110,9 @@ const EditProduct = () => {
 
     const product = {
       ...values,
+      brand: values.brand || undefined,
+      weight: values.weight || undefined,
+      dimensions: values.dimensions || undefined,
       oriImageIds: oriImageIds,
       newImages: newImages,
       productItems: values.productItems.map((item) => {
@@ -144,6 +147,9 @@ const EditProduct = () => {
             labelCol={{ span: 3 }}
             wrapperCol={{ span: 18 }}
             initialValues={{
+              brand: null,
+              weight: null,
+              dimensions: null,
               images: [],
               productItems: [],
             }}
