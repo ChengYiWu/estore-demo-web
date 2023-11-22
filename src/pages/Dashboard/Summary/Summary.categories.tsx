@@ -93,7 +93,7 @@ const SummaryCategories = () => {
 
     chart
       .text()
-      .style("text", "6,600 $")
+      .style("text", "$ 6,600")
       .style("x", "50%")
       .style("y", "50%")
       .style("fontSize", 36)

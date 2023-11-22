@@ -27,7 +27,7 @@ const Summary = () => {
 
   return (
     <div className={styles.root}>
-      <Alert message="此頁面資料為固定資料，未實作後端 API" type="warning" showIcon />
+      <Alert message="此頁面資料為固定資料（其餘頁面皆為真實資料），未實作後端 API" type="warning" showIcon />
       <Row gutter={[16, 16]} className={cx(styles.totalAreaWrap, styles.row)}>
         <Col xs={24} sm={12} md={6}>
           <Card bordered={false}>

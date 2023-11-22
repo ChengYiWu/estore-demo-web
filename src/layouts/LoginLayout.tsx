@@ -5,6 +5,7 @@ import { Button, Form, Input } from "antd";
 import { createStyles } from "antd-style";
 import { antdUtils } from "@utils/antd.util";
 import logo from "@/assets/logo.png";
+import ApiServerDelayAlert from "@components/ApiServerDelayAlert";
 
 interface FormValues {
   email: string;
@@ -75,6 +76,7 @@ const LoginLayout = () => {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
+        <ApiServerDelayAlert noStyle />
         <div className={styles.info}>
           <img src={logo} alt="" />
         </div>
@@ -83,7 +85,7 @@ const LoginLayout = () => {
           onFinish={handleFisih}
           rootClassName={styles.form}
           initialValues={{
-            email: "chris@example.com",
+            email: "manager@example.com",
             password: "123456",
           }}
           layout="vertical"

@@ -19,6 +19,7 @@ import { antdUtils } from "@/utils/antd.util";
 import useDeleteProduct from "./useDeleteProduct";
 import TableDeleteIcon from "@/components/TableDeleteIcon";
 import Content from "@components/Content";
+import ApiServerDelayAlert from "@components/ApiServerDelayAlert";
 
 type FormValues = {
   search: string | null;
@@ -185,6 +186,7 @@ const AllProducts = () => {
 
   return (
     <Content>
+      <ApiServerDelayAlert />
       <AlertIfError isError={isError} description={error?.message} />
       <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
         <Space>

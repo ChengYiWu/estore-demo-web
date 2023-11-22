@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Button, Descriptions, Drawer, Form, Input, Skeleton, Spin, Tag } from "antd";
+import { Alert, Button, Descriptions, Drawer, Form, Input, Skeleton, Spin, Tag } from "antd";
 import { createStyles } from "antd-style";
 import AlertIfError from "@components/AlertIfError";
 import TableEmptyColumn from "@components/TableEmptyColumn";
@@ -192,7 +192,7 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
       title="訂單"
       onClose={onClose}
       size="large"
-      width={"48rem"}
+      width={"52rem"}
       footer={[
         <Button key="close" onClick={onClose} loading={isChangeToCancelledPending || isChangeToShippedPending}>
           關閉
@@ -209,7 +209,8 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
               </Button>,
             ]
           : []),
-        ...([OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "") && data?.isEditable
+        ...([OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "") &&
+        data?.isEditable
           ? [
               <Button
                 key="changeToCancelled"
@@ -227,6 +228,16 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
         footer: styles.footer,
       }}
     >
+      {!data?.isEditable && (
+        <Alert
+          message="提醒"
+          description="此訂單已被管理員設置為不可編輯，故無法做後續轉換狀態操作。"
+          showIcon
+          closable
+          type="warning"
+          style={{ marginBottom: "1rem" }}
+        />
+      )}
       <AlertIfError isError={isError} title={error?.message} />
       <AlertIfError isError={isChangeToCancelledError} title={changeToCancelledError?.message} />
       <AlertIfError isError={isChangeToShippedError} title={changeToShippedError?.message} />
@@ -243,16 +254,17 @@ const ViewOrder = ({ open, orderNo, onClose, onChangeStatusSuccess }: ViewOrderP
                 <ProductTable key={product.id} product={product} productItems={items} />
               ))}
             </div>
-            {[OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "") && (
-              <>
-                <div className="title">取消訂單處理</div>
-                <Form form={form} colon={false} layout="vertical">
-                  <Form.Item label="取消原因" name="reason" rules={[{ required: true, message: "請填寫取消原因" }]}>
-                    <Input.TextArea placeholder="請填寫取消原因" />
-                  </Form.Item>
-                </Form>
-              </>
-            )}
+            {[OrderSystemCodes.Placed.value, OrderSystemCodes.Shipped.value].includes(data?.status ?? "") &&
+              data?.isEditable && (
+                <>
+                  <div className="title">取消訂單處理</div>
+                  <Form form={form} colon={false} layout="vertical">
+                    <Form.Item label="取消原因" name="reason" rules={[{ required: true, message: "請填寫取消原因" }]}>
+                      <Input.TextArea placeholder="請填寫取消原因" />
+                    </Form.Item>
+                  </Form>
+                </>
+              )}
           </div>
         </Spin>
       )}
