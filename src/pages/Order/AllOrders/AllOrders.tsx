@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import ViewOrder from "../ViewOrder";
 import Content from "@components/Content";
 import { Dayjs } from "dayjs";
+import ApiServerDelayAlert from "@components/ApiServerDelayAlert";
 
 const { useBreakpoint } = Grid;
 
@@ -194,6 +195,7 @@ const AllOrders = () => {
 
   return (
     <Content>
+      <ApiServerDelayAlert />
       <AlertIfError isError={isError} description={error?.message} />
       <ViewOrder
         open={!!viewOrderNo}
@@ -210,7 +212,12 @@ const AllOrders = () => {
             />
           </Form.Item>
           <Form.Item name="status" noStyle>
-            <Select options={OrderStatusOptions} placeholder="訂單狀態" className={styles.statusQuerySelect} allowClear/>
+            <Select
+              options={OrderStatusOptions}
+              placeholder="訂單狀態"
+              className={styles.statusQuerySelect}
+              allowClear
+            />
           </Form.Item>
           <Form.Item name="placedAtRange" noStyle>
             <DatePicker.RangePicker

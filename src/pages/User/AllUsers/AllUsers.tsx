@@ -9,6 +9,7 @@ import { createStyles } from "antd-style";
 import PaginationQuery from "@/types/commons/PaginationQuery";
 import SearchKeywordInputExtraIcon from "@components/SearchKeywordInputExtraIcon";
 import Content from "@components/Content";
+import ApiServerDelayAlert from "@components/ApiServerDelayAlert";
 
 type FormValues = {
   search: string | null;
@@ -85,6 +86,7 @@ const AllUsers = () => {
 
   return (
     <Content>
+      <ApiServerDelayAlert />
       <AlertIfError isError={isError} description={error?.message} />
       <Form layout="inline" form={form} rootClassName={styles.searchWrapper} onFinish={handleFinish}>
         <Space>
