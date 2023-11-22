@@ -129,11 +129,6 @@ const EditProduct = () => {
     saveProduct(product);
   };
 
-  const itemLayout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-  };
-
   return (
     <Content>
       <div className={styles.root}>
@@ -254,7 +249,6 @@ const EditProduct = () => {
                         <div key={key} style={{ flex: 1 }}>
                           <Form.Item
                             {...rest}
-                            {...itemLayout}
                             name={[name, "name"]}
                             label="品項名稱"
                             rules={[{ required: true, message: "請填寫品項名稱" }]}
@@ -263,7 +257,6 @@ const EditProduct = () => {
                           </Form.Item>
                           <Form.Item
                             {...rest}
-                            {...itemLayout}
                             name={[name, "price"]}
                             label="品項價格"
                             rules={[{ required: true, message: "請填寫品項價格" }]}
@@ -272,7 +265,6 @@ const EditProduct = () => {
                           </Form.Item>
                           <Form.Item
                             {...rest}
-                            {...itemLayout}
                             name={[name, "stockQuantity"]}
                             label="品項庫存"
                             rules={[{ required: true, message: "請填寫品項庫存" }]}
@@ -281,14 +273,13 @@ const EditProduct = () => {
                           </Form.Item>
                           <Form.Item
                             {...rest}
-                            {...itemLayout}
                             name={[name, "isActive"]}
                             label="是否上架"
                             valuePropName="checked"
                           >
                             <Switch checkedChildren="上架" unCheckedChildren="下架" />
                           </Form.Item>
-                          <Form.Item {...rest} {...itemLayout} name={[name, "images"]} label="品項圖片">
+                          <Form.Item {...rest} name={[name, "images"]} label="品項圖片">
                             <Uploader
                               uploadBtnText="上傳品項圖片"
                               action="/products/upload"
@@ -319,7 +310,7 @@ const EditProduct = () => {
                 </Form.Item>
               )}
             </Form.List>
-            <Form.Item {...itemLayout} label=" ">
+            <Form.Item label=" ">
               <Row gutter={[8, 8]}>
                 <Col xs={24} sm={12} md={4}>
                   <Button block type="primary" htmlType="submit" loading={isSaving}>

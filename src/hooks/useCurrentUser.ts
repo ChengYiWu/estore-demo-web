@@ -9,7 +9,7 @@ const useCurrentUser = () => {
     return {
       ...user,
       token,
-      isAdmin: user.roles.some((role) => role.name === "Admin"),
+      isAdmin: user?.roles.some((role) => role.name === "Admin"),
     };
   }, [user, token]);
 };
